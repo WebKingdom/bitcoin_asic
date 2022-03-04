@@ -3,3 +3,15 @@ precheck_results
 *.lst
 *.vcd
 *.gtkw
+*.mag
+*.maglef
+*.gds
+*.sdc
+*.sdf
+*.spef
+
+/caravel
+/mgmt_core_wrapper
+
+*.vscode
+*.DS_Store
