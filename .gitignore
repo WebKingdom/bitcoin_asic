@@ -12,6 +12,9 @@ precheck_results
 
 /caravel
 /mgmt_core_wrapper
+/mag
+/maglef
+/signoff
 
 *.vscode
 *.DS_Store
