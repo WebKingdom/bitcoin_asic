@@ -3,8 +3,6 @@ precheck_results
 *.lst
 *.vcd
 *.gtkw
-*.mag
-*.maglef
 *.gds
 *.sdc
 *.sdf
@@ -12,6 +10,7 @@ precheck_results
 
 /caravel
 /mgmt_core_wrapper
+/signoff
 
 *.vscode
 *.DS_Store
