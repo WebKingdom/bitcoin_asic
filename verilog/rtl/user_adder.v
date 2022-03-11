@@ -115,7 +115,7 @@ module user_adder #(
         .rdata(rdata),
         .wdata(wbs_dat_i), 
         .la_write(la_write), 
-        .la_input(la_data_in[63:32]),  
+        .la_input(la_data_in[63:32])
     );
 
 endmodule
@@ -125,7 +125,7 @@ module addsub_16 #(
 )(
     input clk,
     input reset,
-    input valid,                // Unused
+    input valid,
     input nAdd_Sub,
     input [BITS-1:0] wdata,     // Packed data stream (upper 16-bits i_X; lower 16-bits i_Y) 
     input [BITS-1:0] la_write,  // Unused
@@ -134,18 +134,30 @@ module addsub_16 #(
     output [BITS-1:0] rdata     // Sum/Difference of Adder/Sub
 );
     reg ready;
+    reg [15:0] arg0;
+    reg [15:0] arg1;
+    reg [BITS-1:0] rdata;
 
     always @(posedge clk) begin
       // Reset outputs
       if (reset) begin
         rdata <= 0;
         ready <= 0;
+        arg0 <= 16'h0000;
+        arg1 <= 16'h0000;
       end else begin
-        // Basic Add/Sub Operation
-        if (nAdd_Sub) begin
-          rdata <= wdata[31:16] - wdata[15:0];
-        end else begin
-          rdata <= wdata[31:16] + wdata[15:0];
+        ready <= 1'b0;
+        arg0 <= wdata[15:0];
+        arg1 <= wdata[31:16];
+
+        if (valid && !ready) begin
+          ready <= 1'b1;
+          // Basic Add/Sub Operation
+          if (valid) begin
+            rdata <= arg1 - arg0;
+          end else begin
+            rdata <= arg1 + arg0;
+          end
         end
       end
     end

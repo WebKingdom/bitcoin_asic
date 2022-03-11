@@ -17,7 +17,7 @@
 
 `timescale 1 ns / 1 ps
 
-module wb_port_tb;
+module adder_test1_tb;
 	reg clock;
 	reg RSTB;
 	reg CSB;
@@ -29,6 +29,7 @@ module wb_port_tb;
 	wire [7:0] mprj_io_0;
 	wire [15:0] checkbits;
 
+	// TODO assign check bits
 	assign checkbits = mprj_io[31:16];
 
 	assign mprj_io[3] = 1'b1;
@@ -44,8 +45,8 @@ module wb_port_tb;
 	end
 
 	initial begin
-		$dumpfile("wb_port.vcd");
-		$dumpvars(0, wb_port_tb);
+		$dumpfile("adder_test1.vcd");
+		$dumpvars(0, adder_test1_tb);
 
 		// Repeat cycles of 1000 clock edges as needed to complete testbench
 		repeat (70) begin
@@ -62,7 +63,6 @@ module wb_port_tb;
 		$finish;
 	end
 
-	// checking for: flag start of test bits
 	initial begin
 	   wait(checkbits == 16'hAB60);
 		$display("Monitor: MPRJ-Logic WB Started");
@@ -134,7 +134,7 @@ module wb_port_tb;
 	);
 
 	spiflash #(
-		.FILENAME("wb_port.hex")
+		.FILENAME("adder_test1.hex")
 	) spiflash (
 		.csb(flash_csb),
 		.clk(flash_clk),
