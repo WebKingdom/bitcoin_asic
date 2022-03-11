@@ -77,7 +77,7 @@ module user_adder #(
 
     wire [31:0] rdata; 
     wire [31:0] wdata;
-    wire [BITS-1:0] count;
+    wire [BITS-1:0] result;
 
     wire valid;
     wire [3:0] wstrb;
@@ -90,14 +90,14 @@ module user_adder #(
     assign wdata = wbs_dat_i;
 
     // IO
-    assign io_out = count;
+    assign io_out = result;
     assign io_oeb = {(`MPRJ_IO_PADS-1){rst}};
 
     // IRQ
     assign irq = 3'b000;	// Unused
 
     // LA
-    assign la_data_out = {{(127-BITS){1'b0}}, count};
+    assign la_data_out = {{(127-BITS){1'b0}}, result};
     // Assuming LA probes [63:32] are for controlling the count register  
     assign la_write = ~la_oenb[63:32] & ~{BITS{valid}};
     // Assuming LA probes [65:64] are for controlling the count clk & reset  
@@ -115,7 +115,8 @@ module user_adder #(
         .rdata(rdata),
         .wdata(wbs_dat_i), 
         .la_write(la_write), 
-        .la_input(la_data_in[63:32])
+        .la_input(la_data_in[63:32]),
+        .result(result)
     );
 
 endmodule
@@ -131,12 +132,14 @@ module addsub_16 #(
     input [BITS-1:0] la_write,  // Unused
     input [BITS-1:0] la_input,  // Unused
     output ready,               // Unused
-    output [BITS-1:0] rdata     // Sum/Difference of Adder/Sub
+    output [BITS-1:0] rdata,    // Sum/Difference of Adder/Sub
+    output [BITS-1:0] result
 );
     reg ready;
     reg [15:0] arg0;
     reg [15:0] arg1;
     reg [BITS-1:0] rdata;
+    reg [BITS-1:0] result;
 
     always @(posedge clk) begin
       // Reset outputs
@@ -145,10 +148,12 @@ module addsub_16 #(
         ready <= 0;
         arg0 <= 16'h0000;
         arg1 <= 16'h0000;
+        result <= 32'h00000000;
       end else begin
         ready <= 1'b0;
         arg0 <= wdata[15:0];
         arg1 <= wdata[31:16];
+        result <= arg1 - arg0;
 
         if (valid && !ready) begin
           ready <= 1'b1;
