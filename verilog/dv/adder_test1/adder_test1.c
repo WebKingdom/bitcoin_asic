@@ -75,7 +75,18 @@ void main()
     reg_mprj_xfer = 1;
     while (reg_mprj_xfer == 1);
 
-	reg_la2_oenb = reg_la2_iena = 0x00000000;    // [95:64]
+    // LA probes [31:0] input to the CPU
+    reg_la0_oenb = reg_la0_iena = 0x00000000;    // [31:0]
+    // LA probes [63:32] output from the CPU
+    reg_la1_oenb = reg_la1_iena = 0xFFFFFFFF;    // [63:32]
+    // LA probes [94:64]  input to the CPU and [95] output from CPU
+	reg_la2_oenb = reg_la2_iena = 0x80000000;    // [95:64]
+
+    // set prev_result to 0xFFFFFFFF for testing
+    reg_la1_data = 0xFFFFFFFF;
+
+    // set nAdd_sub to 1 -> subtract operation
+    reg_la2_data = 0x80000000;
 
     // Flag start of the test
 	reg_mprj_datal = 0xAB600000;

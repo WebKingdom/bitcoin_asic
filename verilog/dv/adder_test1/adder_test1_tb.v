@@ -55,9 +55,9 @@ module adder_test1_tb;
 		end
 		$display("%c[1;31m",27);
 		`ifdef GL
-			$display ("Monitor: Timeout, Test Mega-Project WB Port (GL) Failed");
+			$display ("Monitor: Timeout, Adder Test 1 (GL) Failed");
 		`else
-			$display ("Monitor: Timeout, Test Mega-Project WB Port (RTL) Failed");
+			$display ("Monitor: Timeout, Adder Test 1 (RTL) Failed");
 		`endif
 		$display("%c[0m",27);
 		$finish;
@@ -65,12 +65,12 @@ module adder_test1_tb;
 
 	initial begin
 	   wait(checkbits == 16'hAB60);
-		$display("Monitor: MPRJ-Logic WB Started");
+		$display("Monitor: Adder Test 1 Started");
 		wait(checkbits == 16'hAB61);
 		`ifdef GL
-	    	$display("Monitor: Mega-Project WB (GL) Passed");
+	    	$display("Monitor: Adder Test 1 (GL) Passed");
 		`else
-		    $display("Monitor: Mega-Project WB (RTL) Passed");
+		    $display("Monitor: Adder Test 1 (RTL) Passed");
 		`endif
 	    $finish;
 	end
