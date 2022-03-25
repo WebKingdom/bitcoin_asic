@@ -158,9 +158,9 @@ module addsub_16 #(
           ready <= 1'b1;
           // Basic Add/Sub Operation
           if (nAdd_Sub) begin
-            rdata <= arg1 - arg0;
+            rdata <= wdata[31:16] - wdata[15:0];
           end else begin
-            rdata <= arg1 + arg0;
+            rdata <= wdata[31:16] + wdata[15:0];
           end
         end else if (|la_write) begin
           prev_result <= la_write & la_input;

@@ -28,6 +28,11 @@
 void main()
 {
 
+    // boolean for validating all tests
+    uint32_t testsPassed = 1;
+    // previous result
+    uint32_t prevResult = 0x0000000F;
+
 	/* 
 	IO Control Registers
 	| DM     | VTRIP | SLOW  | AN_POL | AN_SEL | AN_EN | MOD_SEL | INP_DIS | HOLDH | OEB_N | MGMT_EN |
@@ -83,16 +88,79 @@ void main()
 	reg_la2_oenb = reg_la2_iena = 0x80000000;    // [95:64]
 
     // set prev_result to 0xFFFFFFFF for testing
-    reg_la1_data = 0xFFFFFFFF;
+    reg_la1_data = prevResult;
+    // LA probes [63:32] input to the CPU (disable counter writes)
+    // reg_la1_oenb = reg_la1_iena = 0x00000000;    // [63:32]
 
     // set nAdd_sub to 1 -> subtract operation
     reg_la2_data = 0x80000000;
 
     // Flag start of the test
 	reg_mprj_datal = 0xAB600000;
+    // reg_mprj_datah = 0x00000000;
 
+    // 5 - 3 = 2
     reg_mprj_slave = 0x00050003;
-    if (reg_mprj_slave == 0x2 || reg_mprj_slave == 0x8) {
+    if (reg_mprj_slave == 0x00000002)
+    {
+        prevResult = reg_mprj_slave;
+        testsPassed = testsPassed & 1;
+    }
+    else
+    {
+        prevResult = 0xBAD0BAD0;
+        testsPassed = testsPassed & 0;
+    }
+
+    // LA probes [63:32] output from the CPU
+    // reg_la1_oenb = reg_la1_iena = 0xFFFFFFFF;    // [63:32]
+    // set prev_result
+    reg_la1_data = prevResult;
+    // LA probes [63:32] input to the CPU (disable counter writes)
+    // reg_la1_oenb = reg_la1_iena = 0x00000000;    // [63:32]
+
+    // set nAdd_sub to 0 -> add operation
+    reg_la2_data = 0x00000000;
+    // 7 + 15 = 22 = 0x16
+    reg_mprj_slave = 0x0007000F;
+    if (reg_mprj_slave == 0x00000016)
+    {
+        prevResult = reg_mprj_slave;
+        testsPassed = testsPassed & 1;
+    }
+    else
+    {
+        prevResult = 0xBAD0BAD0;
+        testsPassed = testsPassed & 0;
+    }
+
+    // LA probes [63:32] output from the CPU
+    // reg_la1_oenb = reg_la1_iena = 0xFFFFFFFF;    // [63:32]
+    // set prev_result
+    reg_la1_data = prevResult;
+    // LA probes [63:32] input to the CPU (disable counter writes)
+    // reg_la1_oenb = reg_la1_iena = 0x00000000;    // [63:32]
+
+    // set nAdd_sub to 1 -> subtract operation
+    reg_la2_data = 0x10000000;
+    // 0xFFFF - 0x1234 = 0xEDCB
+    reg_mprj_slave = 0xFFFF1234;
+    if (reg_mprj_slave == 0x0000EDCB)
+    {
+        prevResult = reg_mprj_slave;
+        testsPassed = testsPassed & 1;
+    }
+    else
+    {
+        prevResult = 0xBAD0BAD0;
+        testsPassed = testsPassed & 0;
+    }
+
+    // set prev_result
+    reg_la1_data = prevResult;
+
+    if (testsPassed)
+    {
         reg_mprj_datal = 0xAB610000;
     }
 }

@@ -64,7 +64,7 @@ module adder_test1_tb;
 	end
 
 	initial begin
-	   wait(checkbits == 16'hAB60);
+	  wait(checkbits == 16'hAB60);
 		$display("Monitor: Adder Test 1 Started");
 		wait(checkbits == 16'hAB61);
 		`ifdef GL
