@@ -97,7 +97,8 @@ module user_adder #(
     assign irq = 3'b000;	// Unused
 
     // LA
-    assign la_data_out = {{(127-BITS){1'b0}}, prev_result}; // place data on last 32-bits
+    // place 'prev_result' data on last 32-bits of LA
+    assign la_data_out = {{(127-BITS){1'b0}}, prev_result};
     // Assuming LA probes [63:32] are for controlling the prev_result register  
     assign la_write = ~la_oenb[63:32] & ~{BITS{valid}};
     // Assuming LA probes [65:64] are for controlling the prev_result clk & reset  
@@ -111,6 +112,8 @@ module user_adder #(
         .reset(rst),
         .ready(wbs_ack_o),
         .valid(valid), 
+        .wb_we(wbs_we_i),
+        .use_prev_result(la_data_in[94]),
         .nAdd_Sub(la_data_in[95]),
         .rdata(rdata),
         .wdata(wbs_dat_i), 
@@ -127,42 +130,57 @@ module addsub_16 #(
     input clk,
     input reset,
     input valid,
+    input wb_we,                // WB write enable (use together with valid to determine read/write)
+    input use_prev_result,      // Boolean for using previous result in computation
     input nAdd_Sub,             // LA probe 95 controls nAdd_Sub
     input [BITS-1:0] wdata,     // Packed data stream (upper 16-bits i_X; lower 16-bits i_Y) 
     input [BITS-1:0] la_write,  // Used for masking la_input of previous result of adder
     input [BITS-1:0] la_input,  // Used as the previous result of the adder
-    output ready,               // Acknowledge of WB slave output
+    output ready,               // Acknowledge of WB slave (output)
     output [BITS-1:0] rdata,    // Sum/Difference of Adder/Sub
     output [BITS-1:0] prev_result // previous result of add/sub
 );
     reg ready;
-    reg [15:0] arg0;
-    reg [15:0] arg1;
     reg [BITS-1:0] rdata;
+    reg [BITS-1:0] wb_data_reg;
     reg [BITS-1:0] prev_result;
 
     always @(posedge clk) begin
       // Reset outputs
       if (reset) begin
-        rdata <= 0;
         ready <= 0;
-        arg0 <= 16'h0000;
-        arg1 <= 16'h0000;
+        rdata <= 0;
+        wb_data_reg <= 32'h00000000;
         prev_result <= 32'h00000000;
       end else begin
         ready <= 1'b0;
-        arg0 <= wdata[15:0];
-        arg1 <= wdata[31:16];
 
+        // valid read/write to WB and ready (user defined)
         if (valid && !ready) begin
           ready <= 1'b1;
-          // Basic Add/Sub Operation
-          if (nAdd_Sub) begin
-            rdata <= wdata[31:16] - wdata[15:0];
+
+          if (wb_we) begin
+            // Read Wb input into register
+            wb_data_reg <= wdata;
           end else begin
-            rdata <= wdata[31:16] + wdata[15:0];
+            // Write output to WB. Add/Sub operation with previous result if desired
+            if (nAdd_Sub) begin
+              if (use_prev_result) begin
+                rdata <= prev_result - wb_data_reg;
+              end else begin
+                rdata <= wb_data_reg[31:16] - wb_data_reg[15:0];
+              end
+            end else begin
+              if (use_prev_result) begin
+                rdata <= prev_result + wb_data_reg;
+              end else begin
+                rdata <= wb_data_reg[31:16] + wb_data_reg[15:0];
+              end
+            end
           end
+
         end else if (|la_write) begin
+          // FW control previous result. Can store result from WB and can write prev_result
           prev_result <= la_write & la_input;
         end
       end

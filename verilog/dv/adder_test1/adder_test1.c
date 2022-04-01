@@ -84,10 +84,10 @@ void main()
     reg_la0_oenb = reg_la0_iena = 0x00000000;    // [31:0]
     // LA probes [63:32] output from the CPU
     reg_la1_oenb = reg_la1_iena = 0xFFFFFFFF;    // [63:32]
-    // LA probes [94:64]  input to the CPU and [95] output from CPU
-	reg_la2_oenb = reg_la2_iena = 0x80000000;    // [95:64]
+    // LA probes [94:64]  input to the CPU and [95:94] output from CPU (for nAdd_Sub and use_prev_result)
+	reg_la2_oenb = reg_la2_iena = 0xC0000000;    // [95:64]
 
-    // set prev_result to 0xFFFFFFFF for testing
+    // set prev_result for testing
     reg_la1_data = prevResult;
     // LA probes [63:32] input to the CPU (disable counter writes)
     // reg_la1_oenb = reg_la1_iena = 0x00000000;    // [63:32]
@@ -142,10 +142,10 @@ void main()
     // reg_la1_oenb = reg_la1_iena = 0x00000000;    // [63:32]
 
     // set nAdd_sub to 1 -> subtract operation
-    reg_la2_data = 0x10000000;
-    // 0xFFFF - 0x1234 = 0xEDCB
-    reg_mprj_slave = 0xFFFF1234;
-    if (reg_mprj_slave == 0x0000EDCB)
+    reg_la2_data = 0x80000000;
+    // 0x7654 - 0x1234 = 0x6420
+    reg_mprj_slave = 0x76541234;
+    if (reg_mprj_slave == 0x00006420)
     {
         prevResult = reg_mprj_slave;
         testsPassed = testsPassed & 1;
