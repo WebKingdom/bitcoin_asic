@@ -3,3 +3,8 @@ precheck_results
 *.lst
 *.vcd
 *.gtkw
+*.vscode
+*.DS_Store
+/sdc/*
+/sdf/*
+/spef/*
