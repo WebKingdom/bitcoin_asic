@@ -2,14 +2,8 @@ precheck_results
 *.hex*
 *.lst
 *.gtkw
-*.gds
-*.sdc
-*.sdf
-*.spef
-
-/caravel
-/mgmt_core_wrapper
-/signoff
-
 *.vscode
 *.DS_Store
+/sdc/*
+/sdf/*
+/spef/*
