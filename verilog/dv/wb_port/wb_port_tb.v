@@ -62,6 +62,7 @@ module wb_port_tb;
 		$finish;
 	end
 
+	// checking for: flag start of test bits
 	initial begin
 	   wait(checkbits == 16'hAB60);
 		$display("Monitor: MPRJ-Logic WB Started");

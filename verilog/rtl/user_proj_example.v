@@ -150,6 +150,7 @@ module counter #(
             end
             if (valid && !ready) begin
                 ready <= 1'b1;
+                // output count to WB output (slave) and set count to WB input (master)
                 rdata <= count;
                 if (wstrb[0]) count[7:0]   <= wdata[7:0];
                 if (wstrb[1]) count[15:8]  <= wdata[15:8];

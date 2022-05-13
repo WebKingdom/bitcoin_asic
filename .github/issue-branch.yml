@@ -1,0 +1,13 @@
+mode: chatops
+
+branchName: '${issue.number}-${issue.title,}'
+gitSafeReplacementChar: '-'
+
+autoCloseIssue: true
+
+openPR: true
+
+copyIssueLabelsToPR: true
+copyIssueAssigneeToPR: true
+
+commentMessage: 'Branch ${branchName} created for issue: ${issue.title}'

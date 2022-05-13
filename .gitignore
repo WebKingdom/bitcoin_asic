@@ -1,7 +1,6 @@
 precheck_results
 *.hex*
 *.lst
-*.vcd
 *.gtkw
 *.vscode
 *.DS_Store
