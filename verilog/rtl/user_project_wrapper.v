@@ -92,7 +92,6 @@ module user_project_wrapper #(
 //     .wb_rst_i(wb_rst_i),
 
 //     // MGMT SoC Wishbone Slave
-
 //     .wbs_cyc_i(wbs_cyc_i),
 //     .wbs_stb_i(wbs_stb_i),
 //     .wbs_we_i(wbs_we_i),
@@ -103,13 +102,11 @@ module user_project_wrapper #(
 //     .wbs_dat_o(wbs_dat_o),
 
 //     // Logic Analyzer
-
 //     .la_data_in(la_data_in),
 //     .la_data_out(la_data_out),
 //     .la_oenb (la_oenb),
 
 //     // IO Pads
-
 //     .io_in (io_in),
 //     .io_out(io_out),
 //     .io_oeb(io_oeb),
