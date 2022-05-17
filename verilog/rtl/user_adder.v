@@ -105,9 +105,9 @@ module user_adder #(
     assign clk = (~la_oenb[64]) ? la_data_in[64]: wb_clk_i;
     assign rst = (~la_oenb[65]) ? la_data_in[65]: wb_rst_i;
 
-    addsub_16 #(
+    add_sub_accum #(
         .BITS(BITS)
-    ) addsub_16(
+    ) add_sub_accum(
         .clk(clk), 
         .reset(rst),
         .ready(wbs_ack_o),
@@ -124,7 +124,7 @@ module user_adder #(
 
 endmodule
 
-module addsub_16 #(
+module add_sub_accum #(
     parameter BITS = 32
 )(
     input clk,
@@ -144,6 +144,12 @@ module addsub_16 #(
     reg [BITS-1:0] rdata;
     reg [BITS-1:0] wb_data_reg;
     reg [BITS-1:0] prev_result;
+
+    wire [BITS-1:0] res_added;
+    wire [BITS-1:0] res_subtracted;
+
+    assign res_added = use_prev_result ? (prev_result + wb_data_reg) : (wb_data_reg[31:16] + wb_data_reg[15:0]);
+    assign res_subtracted = use_prev_result ? (prev_result - wb_data_reg) : (wb_data_reg[31:16] - wb_data_reg[15:0]);
 
     always @(posedge clk) begin
       // Reset outputs
@@ -165,17 +171,9 @@ module addsub_16 #(
           end else begin
             // Write output to WB. Add/Sub operation with previous result if desired
             if (nAdd_Sub) begin
-              if (use_prev_result) begin
-                rdata <= prev_result - wb_data_reg;
-              end else begin
-                rdata <= wb_data_reg[31:16] - wb_data_reg[15:0];
-              end
+              rdata <= res_subtracted;
             end else begin
-              if (use_prev_result) begin
-                rdata <= prev_result + wb_data_reg;
-              end else begin
-                rdata <= wb_data_reg[31:16] + wb_data_reg[15:0];
-              end
+              rdata <= res_added;
             end
           end
 
