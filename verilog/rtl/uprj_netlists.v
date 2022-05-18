@@ -23,8 +23,10 @@
     `include "gl/user_project_wrapper.v"
     `include "gl/user_proj_example.v"
     `include "gl/user_adder.v"
+    `include "gl/btc_miner_top.v"
 `else
     `include "user_project_wrapper.v"
     `include "user_proj_example.v"
     `include "user_adder.v"
+    `include "btc_miner_top.v"
 `endif

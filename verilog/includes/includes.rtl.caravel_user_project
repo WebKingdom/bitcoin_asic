@@ -2,3 +2,4 @@
 -v $(USER_PROJECT_VERILOG)/rtl/user_project_wrapper.v	     
 -v $(USER_PROJECT_VERILOG)/rtl/user_proj_example.v
 -v $(USER_PROJECT_VERILOG)/rtl/user_adder.v
+-v $(USER_PROJECT_VERILOG)/rtl/btc_miner_top.v

@@ -2,3 +2,4 @@
 $USER_PROJECT_VERILOG/gl/user_project_wrapper.v	     
 $USER_PROJECT_VERILOG/gl/user_proj_example.v
 $USER_PROJECT_VERILOG/gl/user_adder.v
+$USER_PROJECT_VERILOG/gl/btc_miner_top.v

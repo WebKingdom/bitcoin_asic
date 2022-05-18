@@ -156,8 +156,8 @@ module add_sub_accum #(
       if (reset) begin
         ready <= 0;
         rdata <= 0;
-        wb_data_reg <= 32'h00000000;
-        prev_result <= 32'h00000000;
+        wb_data_reg <= 0;
+        prev_result <= 0;
       end else begin
         ready <= 1'b0;
 
