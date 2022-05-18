@@ -16,11 +16,17 @@ module comparator (
     output out,
     output [255:0] outHash
     );
+    reg [255:0] datareg = 256'b0;
+    reg outWire = 1'b0;
 
-    if (hashOut>target && out!=1)
-        out<=0;
-    else begin
-        out<=1;
-        outHash<=hashOut;
+    always @(hashOut,target) begin
+        if (hashOut<=target)begin
+            outWire <= 1'b1;
+            datareg <= hashOut;
+        end
     end
+
+    assign out = outWire;
+    assign outHash = datareg;
+
 endmodule

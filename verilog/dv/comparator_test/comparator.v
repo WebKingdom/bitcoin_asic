@@ -19,7 +19,7 @@ module comparator (
     reg [255:0] datareg = 256'b0;
     reg outWire = 1'b0;
 
-    always @(hashOut,target,out) begin
+    always @(hashOut,target) begin
         if (hashOut<=target)begin
             outWire <= 1'b1;
             datareg <= hashOut;
