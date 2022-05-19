@@ -76,18 +76,28 @@ module btc_miner_top #(
   wire [`MPRJ_IO_PADS-1:0] io_out;
   wire [`MPRJ_IO_PADS-1:0] io_oeb;
 
+  // WB wires
   wire [31:0] rdata; 
   wire [31:0] wdata;
 
   wire valid;
   wire [3:0] wstrb;
-  wire [31:0] la_write;
+
+  // LA wires
+  wire [31:0] la_write0;
+  wire [31:0] la_write1;
+  wire [31:0] la_write2;
+  wire [31:0] la_write3;
 
   // Bitcoin mining variables
   wire [BITS-1:0] nonce;
   wire idle;
-  logic [639:0] block_header;
-  logic [255:0] target;
+  wire [639:0] block_header;
+  wire [255:0] target;
+
+  // TODO use top 32-bits of LA to control muxing and other variables like starting state machine
+  wire [2:0] la_sel;
+  assign la_sel = la_data_in[127:125];
 
   // WB MI A
   assign valid = wbs_cyc_i && wbs_stb_i; 
@@ -102,14 +112,29 @@ module btc_miner_top #(
   // IRQ
   assign irq = 3'b000;	// Unused
 
-  // LA
-  // place 'nonce' data on last 32-bits of LA
-  assign la_data_out = {{(127-BITS){1'b0}}, nonce};
-  // Assuming LA probes [63:32] are for controlling the nonce register  
-  assign la_write = ~la_oenb[63:32] & ~{BITS{valid}};
-  // Assuming LA probes [65:64] are for controlling the nonce clk & reset  
-  assign clk = (~la_oenb[64]) ? la_data_in[64]: wb_clk_i;
-  assign rst = (~la_oenb[65]) ? la_data_in[65]: wb_rst_i;
+  // Assuming LA probes [31:0] (aka: la_write0) are for controlling the nonce register.
+  // * NOTE: These are used as a mask for the la_data_in[?:?]
+  assign la_write0 = ~la_oenb[31:0] & ~{BITS{valid}};
+  assign la_write1 = ~la_oenb[63:32] & ~{BITS{valid}};
+  assign la_write2 = ~la_oenb[95:64] & ~{BITS{valid}};
+  assign la_write3 = ~la_oenb[127:96] & ~{BITS{valid}};
+
+  // Assuming LA probes [97:96] are for controlling the clk & reset  
+  assign clk = (~la_oenb[96]) ? la_data_in[96] : wb_clk_i;
+  assign rst = (~la_oenb[97]) ? la_data_in[97] : wb_rst_i;
+
+  // TODO more LA muxing
+  always @(la_data_in || la_data_out || la_oenb || la_sel || nonce || block_header || target) begin
+    case (la_sel)
+      2'b00 : la_data_out[95:0] <= {{(95-BITS){1'b0}}, nonce};
+      2'b01 : la_data_out[95:0] <= block_header[95:0];
+      2'b10 : la_data_out[95:0] <= block_header[191:96];
+      2'b11 : la_data_out[95:0] <= block_header[287:192];
+
+      default:
+        // should not happen
+    endcase
+  end
 
   // TODO create state machine for reading block header and passing to miner
   miner_ctrl #(
@@ -120,18 +145,22 @@ module btc_miner_top #(
     .valid(valid),
     .wb_we(wbs_we_i),
     .wdata(wbs_dat_i),
-    .la_write(la_write),
-    .la_input(la_data_in[63:32]),
-    .target(target),
+    .la_write0(la_write0),
+    .la_write3(la_write3),
+    .la_input0(la_data_in[31:0]),
+    .la_input3(la_data_in[127:96]),
     .ready(wbs_ack_o),
     .rdata(rdata),
-    .nonce(nonce),
     .block_header(block_header),
+    .target(target),
+    .nonce(nonce),
     .idle(o_idle)
   )
 
 endmodule // btc_miner_top
 
+
+// miner_ctrl
 module miner_ctrl #(
   parameter BITS 32
 )(
@@ -140,13 +169,15 @@ module miner_ctrl #(
   input valid,
   input wb_we,
   input [BITS-1:0] wdata,
-  input [BITS-1:0] la_write,
-  input [BITS-1:0] la_input,
-  input target,
+  input [BITS-1:0] la_write0,
+  input [BITS-1:0] la_write3,
+  input [BITS-1:0] la_input0,
+  input [BITS-1:0] la_input3,
   output ready,
   output [BITS-1:0] rdata,
-  output nonce,
   output block_header,
+  output target,
+  output nonce,
   output idle
 );
 
@@ -157,15 +188,19 @@ module miner_ctrl #(
   reg [BITS-1:0] rdata;
   reg [BITS-1:0] wb_data_reg;
   reg [BITS-1:0] nonce;
+  reg [BITS-1:0] encoded_target;
+  reg [255:0] target;
   reg miner_rst;
-  wire idle;
 
   logic [639:0] block_header;
   logic [255:0] o_hash_val;
   logic o_done_hash;
-  logic [255:0] target;
+
+  wire idle;
+  wire start;
 
   assign idle = (state == WAIT_IN) ? 1'b1 : 1'b0;
+  assign start = la_write[2] ? la_input3[2] : 1'b0;
 
   // need to count to 640/32 = 20 (decimal). Only to 19 b/c nonce is last 32-bits
   int unsigned count;
@@ -176,33 +211,45 @@ module miner_ctrl #(
       rdata <= 0;
       wb_data_reg <= 0;
       nonce <= 0;
-      state <= WAIT_IN;
+      encoded_target <= 0;
+      target <= 0;
       count <= 0;
       miner_rst <= 1;
+      block_header <= 0;
+
+      state <= WAIT_IN;
     end else begin
       ready <= 1'b0;
 
+      // state machine for controlling miner and I/O
       case (state)
         WAIT_IN:
-          // TODO
+          // TODO?
           miner_rst <= 1;
-          if (la_input[0] == 0) begin
+          if (start == 1) begin
             state <= READ_IN;
           end
 
         READ_IN:
           // TODO
           miner_rst <= 1;
+
           if (valid && !ready) begin
             ready <= 1'b1;
-    
+
             if (wb_we) begin
-              // read WB data into block header
+              // TODO? read WB data into block header
               block_header[BITS*count +:BITS] <= wdata;
-              if (count >= 18) begin
+              if (count == 18) begin
+                // TODO pass encoded_target into decoder module
+                encoded_target <= wdata;
+                target <= {{(255-BITS){1'b0}}, wdata};
+                count <= count + 1;
+              end else if (count >= 19) begin
                 block_header[639:608] <= nonce;
                 count <= 0;
                 nonce <= nonce + 1;
+                miner_rst <= 0;
                 state <= COMPUTE;
               end else begin
                 count <= count + 1;
@@ -212,7 +259,6 @@ module miner_ctrl #(
 
         COMPUTE:
           // start miner
-          miner_rst <= 0;
           if (o_done_hash) begin
             // TODO target
             if (o_hash_val < target) begin
@@ -222,16 +268,34 @@ module miner_ctrl #(
               block_header[639:608] <= nonce;
               state <= INCR_NONCE;
             end
+          end else begin
+            miner_rst <= 0;
           end
-          
+
         INCR_NONCE:
-          // TODO
+          // TODO?
           miner_rst <= 0;
+          nonce <= nonce + 1;
           state <= COMPUTE;
           
         WRITE_OUT:
           // TODO
-          state <= WAIT_IN;
+          if (valid && !ready) begin
+            ready <= 1'b1;
+
+            if (wb_we) begin
+              // WB should not be writing to user project
+            end else begin
+              // Place output hash on wishbone
+              rdata <= o_hash_val[BITS*count +:BITS];
+              if (count >= 7) begin
+                count <= 0;
+                state <= WAIT_IN;
+              end else begin
+                count <= count + 1;
+              end
+            end
+          end
 
         default:
           // should not happen
@@ -246,7 +310,7 @@ module miner_ctrl #(
     .hashed(o_hash_val),
     .done(o_done_hash)
   );
-endmodule
+endmodule // miner_ctrl
 
 
 // miner
