@@ -239,7 +239,7 @@ module miner_ctrl #(
 
             if (wb_we) begin
               // TODO? read WB data into block header
-              block_header[BITS*count +:BITS] <= wdata;
+              block_header[BITS*count + 31 : BITS*count] <= wdata;
               if (count == 18) begin
                 // TODO pass encoded_target into decoder module
                 encoded_target <= wdata;
