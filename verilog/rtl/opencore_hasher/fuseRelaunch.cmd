@@ -1,0 +1,1 @@
+-intstyle "ise" -incremental -lib "secureip" -o "Z:/Dropbox/develop/fpga/sha256_hash_core/sha256_hash_core/trunk/syn/sha256/testbench_isim_beh.exe" -prj "Z:/Dropbox/develop/fpga/sha256_hash_core/sha256_hash_core/trunk/syn/sha256/testbench_beh.prj" "work.testbench" 

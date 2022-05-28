@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="Z:/Dropbox/develop/fpga/sha256_hash_core/sha256_hash_core/trunk/syn/sha256/testbench_isim_beh.wdb" id="1" type="auto">
+         <top_modules>
+            <top_module name="numeric_std" />
+            <top_module name="std_logic_1164" />
+            <top_module name="testbench" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <WVObjectSize size="41" />
+   <wvobject fp_name="/testbench/test_case" type="other" db_ref_id="1">
+      <obj_property name="ElementShortName">test_case</obj_property>
+      <obj_property name="ObjectShortName">test_case</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench/pclk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">pclk</obj_property>
+      <obj_property name="ObjectShortName">pclk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench/Inst_sha_256_dut/Inst_sha256_control/hash_control_st_reg" type="other" db_ref_id="1">
+      <obj_property name="ElementShortName">hash_control_st_reg</obj_property>
+      <obj_property name="ObjectShortName">hash_control_st_reg</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench/Inst_sha_256_dut/Inst_sha256_control/hash_control_st_next" type="other" db_ref_id="1">
+      <obj_property name="ElementShortName">hash_control_st_next</obj_property>
+      <obj_property name="ObjectShortName">hash_control_st_next</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench/dut_ce" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">dut_ce</obj_property>
+      <obj_property name="ObjectShortName">dut_ce</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench/dut_start" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">dut_start</obj_property>
+      <obj_property name="ObjectShortName">dut_start</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench/dut_end" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">dut_end</obj_property>
+      <obj_property name="ObjectShortName">dut_end</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench/Inst_sha_256_dut/Inst_sha256_control/di_wr_window" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">di_wr_window</obj_property>
+      <obj_property name="ObjectShortName">di_wr_window</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench/dut_di_req" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">dut_di_req</obj_property>
+      <obj_property name="ObjectShortName">dut_di_req</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench/dut_di_wr" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">dut_di_wr</obj_property>
+      <obj_property name="ObjectShortName">dut_di_wr</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench/dut_error" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">dut_error</obj_property>
+      <obj_property name="ObjectShortName">dut_error</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench/dut_do_valid" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">dut_do_valid</obj_property>
+      <obj_property name="ObjectShortName">dut_do_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench/Inst_sha_256_dut/Inst_sha256_control/error_i" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">error_i</obj_property>
+      <obj_property name="ObjectShortName">error_i</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench/Inst_sha_256_dut/Inst_sha256_control/core_error" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">core_error</obj_property>
+      <obj_property name="ObjectShortName">core_error</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench/dut_di" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">dut_di[31:0]</obj_property>
+      <obj_property name="ObjectShortName">dut_di[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench/dut_bytes" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">dut_bytes[1:0]</obj_property>
+      <obj_property name="ObjectShortName">dut_bytes[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench/Inst_sha_256_dut/Inst_sha256_control/st_cnt_reg" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">st_cnt_reg[6:0]</obj_property>
+      <obj_property name="ObjectShortName">st_cnt_reg[6:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench/Inst_sha_256_dut/Inst_sha256_control/bitlen_o" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">bitlen_o[63:0]</obj_property>
+      <obj_property name="ObjectShortName">bitlen_o[63:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench/Inst_sha_256_dut/Inst_sha256_control/sha_reset" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">sha_reset</obj_property>
+      <obj_property name="ObjectShortName">sha_reset</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench/Inst_sha_256_dut/Inst_sha256_control/sha_init" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">sha_init</obj_property>
+      <obj_property name="ObjectShortName">sha_init</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench/Inst_sha_256_dut/Inst_sha256_control/sch_ld_o" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">sch_ld_o</obj_property>
+      <obj_property name="ObjectShortName">sch_ld_o</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench/Inst_sha_256_dut/Inst_sha256_control/core_ld_o" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">core_ld_o</obj_property>
+      <obj_property name="ObjectShortName">core_ld_o</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench/Inst_sha_256_dut/Inst_sha256_control/oregs_ld_o" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">oregs_ld_o</obj_property>
+      <obj_property name="ObjectShortName">oregs_ld_o</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench/Inst_sha_256_dut/Inst_sha256_control/core_ce_o" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">core_ce_o</obj_property>
+      <obj_property name="ObjectShortName">core_ce_o</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench/Inst_sha_256_dut/Inst_sha256_control/sch_ce_o" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">sch_ce_o</obj_property>
+      <obj_property name="ObjectShortName">sch_ce_o</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench/Inst_sha_256_dut/Inst_sha256_control/oregs_ce_o" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">oregs_ce_o</obj_property>
+      <obj_property name="ObjectShortName">oregs_ce_o</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench/Inst_sha_256_dut/Inst_sha256_control/one_insert_o" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">one_insert_o</obj_property>
+      <obj_property name="ObjectShortName">one_insert_o</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench/Inst_sha_256_dut/Inst_sha256_control/sha_last_blk_reg" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">sha_last_blk_reg</obj_property>
+      <obj_property name="ObjectShortName">sha_last_blk_reg</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench/Inst_sha_256_dut/Inst_sha256_control/sha_last_blk_next" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">sha_last_blk_next</obj_property>
+      <obj_property name="ObjectShortName">sha_last_blk_next</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench/Inst_sha_256_dut/Inst_sha256_hash_core/kt_i" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">kt_i[31:0]</obj_property>
+      <obj_property name="ObjectShortName">kt_i[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench/Inst_sha_256_dut/Inst_sha256_msg_sch/wt_o" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">wt_o[31:0]</obj_property>
+      <obj_property name="ObjectShortName">wt_o[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench/Inst_sha_256_dut/Inst_sha256_hash_core/wt_i" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">wt_i[31:0]</obj_property>
+      <obj_property name="ObjectShortName">wt_i[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench/Inst_sha_256_dut/Inst_sha256_hash_core/a_o" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">a_o[31:0]</obj_property>
+      <obj_property name="ObjectShortName">a_o[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench/dut_h0" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">dut_h0[31:0]</obj_property>
+      <obj_property name="ObjectShortName">dut_h0[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench/dut_h1" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">dut_h1[31:0]</obj_property>
+      <obj_property name="ObjectShortName">dut_h1[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench/dut_h2" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">dut_h2[31:0]</obj_property>
+      <obj_property name="ObjectShortName">dut_h2[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench/dut_h3" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">dut_h3[31:0]</obj_property>
+      <obj_property name="ObjectShortName">dut_h3[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench/dut_h4" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">dut_h4[31:0]</obj_property>
+      <obj_property name="ObjectShortName">dut_h4[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench/dut_h5" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">dut_h5[31:0]</obj_property>
+      <obj_property name="ObjectShortName">dut_h5[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench/dut_h6" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">dut_h6[31:0]</obj_property>
+      <obj_property name="ObjectShortName">dut_h6[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench/dut_h7" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">dut_h7[31:0]</obj_property>
+      <obj_property name="ObjectShortName">dut_h7[31:0]</obj_property>
+   </wvobject>
+</wave_config>
