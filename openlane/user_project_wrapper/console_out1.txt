@@ -1,0 +1,354 @@
+Magic 8.3 revision 269 - Compiled on Fri Feb 18 11:40:47 UTC 2022.
+Starting magic under Tcl interpreter
+Using the terminal as the console.
+Using NULL graphics device.
+Processing system .magicrc file
+Sourcing design .magicrc for technology sky130A ...
+2 Magic internal units = 1 Lambda
+Input style sky130(vendor): scaleFactor=2, multiplier=2
+The following types are not handled by extraction and will be treated as non-electrical types:
+    mvobsactive ubm 
+Scaled tech values by 2 / 1 to match internal grid scaling
+Loading sky130A Device Generator Menu ...
+Loading "/Users/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/user_project_wrapper/runs/user_project_wrapper/tmp/finishing/spice.tcl" from command line.
+Reading LEF data from file /Users/somasz/Documents/GitHub/mpw_6c/caravel_design/pdks/sky130A/libs.ref/sky130_fd_sc_hd/techlef/sky130_fd_sc_hd.tlef.
+This action cannot be undone.
+LEF read, Line 78 (Message): Unknown keyword "ANTENNAMODEL" in LEF file; ignoring.
+LEF read, Line 79 (Message): Unknown keyword "ANTENNADIFFSIDEAREARATIO" in LEF file; ignoring.
+LEF read, Line 111 (Message): Unknown keyword "MINENCLOSEDAREA" in LEF file; ignoring.
+LEF read, Line 113 (Message): Unknown keyword "ANTENNAMODEL" in LEF file; ignoring.
+LEF read, Line 114 (Message): Unknown keyword "ANTENNADIFFSIDEAREARATIO" in LEF file; ignoring.
+LEF read, Line 120 (Message): Unknown keyword "MAXIMUMDENSITY" in LEF file; ignoring.
+LEF read, Line 121 (Message): Unknown keyword "DENSITYCHECKWINDOW" in LEF file; ignoring.
+LEF read, Line 122 (Message): Unknown keyword "DENSITYCHECKSTEP" in LEF file; ignoring.
+LEF read, Line 154 (Message): Unknown keyword "MINENCLOSEDAREA" in LEF file; ignoring.
+LEF read, Line 162 (Message): Unknown keyword "ANTENNAMODEL" in LEF file; ignoring.
+LEF read, Line 163 (Message): Unknown keyword "ANTENNADIFFSIDEAREARATIO" in LEF file; ignoring.
+LEF read, Line 165 (Message): Unknown keyword "MAXIMUMDENSITY" in LEF file; ignoring.
+LEF read, Line 166 (Message): Unknown keyword "DENSITYCHECKWINDOW" in LEF file; ignoring.
+LEF read, Line 167 (Message): Unknown keyword "DENSITYCHECKSTEP" in LEF file; ignoring.
+LEF read, Line 203 (Message): Unknown keyword "ANTENNAMODEL" in LEF file; ignoring.
+LEF read, Line 204 (Message): Unknown keyword "ANTENNADIFFSIDEAREARATIO" in LEF file; ignoring.
+LEF read, Line 206 (Message): Unknown keyword "MAXIMUMDENSITY" in LEF file; ignoring.
+LEF read, Line 207 (Message): Unknown keyword "DENSITYCHECKWINDOW" in LEF file; ignoring.
+LEF read, Line 208 (Message): Unknown keyword "DENSITYCHECKSTEP" in LEF file; ignoring.
+LEF read, Line 244 (Message): Unknown keyword "ANTENNAMODEL" in LEF file; ignoring.
+LEF read, Line 245 (Message): Unknown keyword "ANTENNADIFFSIDEAREARATIO" in LEF file; ignoring.
+LEF read, Line 247 (Message): Unknown keyword "MAXIMUMDENSITY" in LEF file; ignoring.
+LEF read, Line 248 (Message): Unknown keyword "DENSITYCHECKWINDOW" in LEF file; ignoring.
+LEF read, Line 249 (Message): Unknown keyword "DENSITYCHECKSTEP" in LEF file; ignoring.
+LEF read, Line 285 (Message): Unknown keyword "ANTENNAMODEL" in LEF file; ignoring.
+LEF read, Line 286 (Message): Unknown keyword "ANTENNADIFFSIDEAREARATIO" in LEF file; ignoring.
+LEF read: Processed 792 lines.
+Reading LEF data from file /Users/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/user_project_wrapper/../../lef/user_proj_example.lef.
+This action cannot be undone.
+LEF read: Processed 5547 lines.
+Reading DEF data from file /Users/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/user_project_wrapper/runs/user_project_wrapper/results/routing/user_project_wrapper.def.
+This action cannot be undone.
+  Processed 2 vias total.
+  Processed 1 subcell instances total.
+  Processed 645 pins total.
+  Processed 8 special nets total.
+  Processed 637 nets total.
+DEF read: Processed 14496 lines.
+Processing user_project_wrapper
+Extracting user_proj_example into user_proj_example.ext:
+Extracting user_project_wrapper into user_project_wrapper.ext:
+exttospice finished.
+Using technology "sky130A", version 1.0.283-0-g7519dfb
+[INFO]: No illegal overlaps detected during extraction.
+[INFO]: Incremented step index to 27.
+[INFO]: Writing Powered Verilog...
+OpenROAD 8d53e9b018dec98fa63e907ddeb6c5406f035361 
+This program is licensed under the BSD-3 license. See the LICENSE file for details.
+Components of this program may be licensed under more restrictive licenses which must be honored.
+[INFO ODB-0222] Reading LEF file: /Users/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/user_project_wrapper/runs/user_project_wrapper/tmp/merged.lef
+[INFO ODB-0223]     Created 13 technology layers
+[INFO ODB-0224]     Created 25 technology vias
+[INFO ODB-0225]     Created 442 library cells
+[INFO ODB-0226] Finished LEF file:  /Users/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/user_project_wrapper/runs/user_project_wrapper/tmp/merged.lef
+[INFO ODB-0127] Reading DEF file: /Users/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/user_project_wrapper/runs/user_project_wrapper/results/routing/user_project_wrapper.def
+[INFO ODB-0128] Design: user_project_wrapper
+[INFO ODB-0130]     Created 645 pins.
+[INFO ODB-0131]     Created 1 components and 609 component-terminals.
+[INFO ODB-0132]     Created 8 special nets and 0 connections.
+[INFO ODB-0133]     Created 637 nets and 607 connections.
+[INFO ODB-0134] Finished DEF file: /Users/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/user_project_wrapper/runs/user_project_wrapper/results/routing/user_project_wrapper.def
+[INFO ODB-0222] Reading LEF file: /Users/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/user_project_wrapper/runs/user_project_wrapper/tmp/merged.lef
+[INFO ODB-0223]     Created 13 technology layers
+[INFO ODB-0224]     Created 25 technology vias
+[INFO ODB-0225]     Created 442 library cells
+[INFO ODB-0226] Finished LEF file:  /Users/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/user_project_wrapper/runs/user_project_wrapper/tmp/merged.lef
+[INFO ODB-0127] Reading DEF file: /Users/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/user_project_wrapper/runs/user_project_wrapper/tmp/synthesis/pg_define.def
+[INFO ODB-0128] Design: user_project_wrapper
+[INFO ODB-0130]     Created 645 pins.
+[INFO ODB-0131]     Created 1 components and 609 component-terminals.
+[INFO ODB-0133]     Created 645 nets and 609 connections.
+[INFO ODB-0134] Finished DEF file: /Users/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/user_project_wrapper/runs/user_project_wrapper/tmp/synthesis/pg_define.def
+Top-level design name: user_project_wrapper
+Default power net:  vccd1
+Default ground net: vssd1
+Found a total of 4 power ports.
+Found a total of 4 ground ports.
+Modified power connections of 1 cells (Remaining: 0 ).
+STDOUT:
+OpenROAD 8d53e9b018dec98fa63e907ddeb6c5406f035361 
+This program is licensed under the BSD-3 license. See the LICENSE file for details.
+Components of this program may be licensed under more restrictive licenses which must be honored.
+warning: `//.tclsh-history' is not writable.
+openroad> read_lef /Users/somasz/Documents/GitHub/mpw_6c/caravel_design/carav
+<omasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/u
+
+<_6c/caravel_design/caravel_bitcoin_asic/openlane/user_project_wrapper/runs/u
+
+<_bitcoin_asic/openlane/user_project_wrapper/runs/user_project_wrapper/tmp/me
+
+<r_project_wrapper/runs/user_project_wrapper/tmp/merged.lef                  
+[INFO ODB-0222] Reading LEF file: /Users/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/user_project_wrapper/runs/user_project_wrapper/tmp/merged.lef
+[INFO ODB-0223]     Created 13 technology layers
+[INFO ODB-0224]     Created 25 technology vias
+[INFO ODB-0225]     Created 442 library cells
+[INFO ODB-0226] Finished LEF file:  /Users/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/user_project_wrapper/runs/user_project_wrapper/tmp/merged.lef
+openroad> read_verilog /Users/somasz/Documents/GitHub/mpw_6c/caravel_design/c
+<rs/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openla
+
+</mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/user_project_wrapper/ru
+
+<avel_bitcoin_asic/openlane/user_project_wrapper/runs/user_project_wrapper/tm
+
+</user_project_wrapper/runs/user_project_wrapper/tmp/synthesis/pg_define.v   
+openroad> link_design user_project_wrapper
+[WARNING ORD-1011] LEF master user_proj_example has no liberty cell.
+openroad> write_def /Users/somasz/Documents/GitHub/mpw_6c/caravel_design/cara
+<somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/
+
+<w_6c/caravel_design/caravel_bitcoin_asic/openlane/user_project_wrapper/runs/
+
+<l_bitcoin_asic/openlane/user_project_wrapper/runs/user_project_wrapper/tmp/s
+
+<er_project_wrapper/runs/user_project_wrapper/tmp/synthesis/pg_define.def    
+openroad> exit
+unable to write history to `//.tclsh-history'
+STDERR:
+
+openroad exit code: 0
+Successfully created a new database
+Modified connections between vccd1 and mprj
+Modified connections between vssd1 and mprj
+[INFO]: Incremented step index to 28.
+[INFO]: Writing Verilog...
+OpenROAD 8d53e9b018dec98fa63e907ddeb6c5406f035361 
+This program is licensed under the BSD-3 license. See the LICENSE file for details.
+Components of this program may be licensed under more restrictive licenses which must be honored.
+[INFO ODB-0222] Reading LEF file: /Users/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/user_project_wrapper/runs/user_project_wrapper/tmp/merged_unpadded.lef
+[INFO ODB-0223]     Created 13 technology layers
+[INFO ODB-0224]     Created 25 technology vias
+[INFO ODB-0225]     Created 442 library cells
+[INFO ODB-0226] Finished LEF file:  /Users/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/user_project_wrapper/runs/user_project_wrapper/tmp/merged_unpadded.lef
+[INFO ODB-0127] Reading DEF file: /Users/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/user_project_wrapper/runs/user_project_wrapper/tmp/finishing/27-powered_def.def
+[INFO ODB-0128] Design: user_project_wrapper
+[INFO ODB-0130]     Created 645 pins.
+[INFO ODB-0131]     Created 1 components and 609 component-terminals.
+[INFO ODB-0132]     Created 8 special nets and 0 connections.
+[INFO ODB-0133]     Created 639 nets and 609 connections.
+[INFO ODB-0134] Finished DEF file: /Users/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/user_project_wrapper/runs/user_project_wrapper/tmp/finishing/27-powered_def.def
+[INFO]: Yosys won't attempt to rewrite verilog, and the OpenROAD output will be used as is.
+[INFO]: Changing netlist from /Users/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/user_project_wrapper/runs/user_project_wrapper/tmp/routing/17-detailed.v to /Users/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/user_project_wrapper/runs/user_project_wrapper/tmp/finishing/27-powered_netlist.v
+[INFO]: Incremented step index to 29.
+[INFO]: Running LEF LVS...
+[INFO]: /Users/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/user_project_wrapper/runs/user_project_wrapper/results/finishing/user_project_wrapper.spice against /Users/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/user_project_wrapper/runs/user_project_wrapper/tmp/finishing/27-powered_netlist.v
+Netgen 1.5.219 compiled on Wed Feb  9 05:50:10 UTC 2022
+Warning: netgen command 'format' use fully-qualified name '::netgen::format'
+Warning: netgen command 'global' use fully-qualified name '::netgen::global'
+Generating JSON file result
+Reading netlist file /Users/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/user_project_wrapper/runs/user_project_wrapper/results/finishing/user_project_wrapper.spice
+Reading netlist file /Users/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/user_project_wrapper/runs/user_project_wrapper/tmp/finishing/27-powered_netlist.v
+Warning:  A case-insensitive file has been read and so the	verilog file must be treated case-insensitive to match.
+Creating placeholder cell definition for module user_proj_example.
+Reading setup file /Users/somasz/Documents/GitHub/mpw_6c/caravel_design/pdks/sky130A/libs.tech/netgen/sky130A_setup.tcl
+Comparison output logged to file /Users/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/user_project_wrapper/runs/user_project_wrapper/logs/finishing/30-user_project_wrapper.lef.log
+Logging to file "/Users/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/user_project_wrapper/runs/user_project_wrapper/logs/finishing/30-user_project_wrapper.lef.log" enabled
+Circuit user_proj_example contains no devices.
+
+Contents of circuit 1:  Circuit: 'user_project_wrapper'
+Circuit user_project_wrapper contains 1 device instances.
+  Class: user_proj_example     instances:   1
+Circuit contains 609 nets, and 36 disconnected pins.
+Contents of circuit 2:  Circuit: 'user_project_wrapper'
+Circuit user_project_wrapper contains 1 device instances.
+  Class: user_proj_example     instances:   1
+Circuit contains 609 nets, and 36 disconnected pins.
+
+Circuit 1 contains 1 devices, Circuit 2 contains 1 devices.
+Circuit 1 contains 609 nets,    Circuit 2 contains 609 nets.
+
+Netlists match uniquely.
+Result: Circuits match uniquely.
+Logging to file "/Users/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/user_project_wrapper/runs/user_project_wrapper/logs/finishing/30-user_project_wrapper.lef.log" disabled
+LVS Done.
+LVS reports no net, device, pin, or property mismatches.
+
+Total errors = 0
+[INFO]: No LVS mismatches.
+[INFO]: Incremented step index to 30.
+[INFO]: Running Magic DRC...
+
+Magic 8.3 revision 269 - Compiled on Fri Feb 18 11:40:47 UTC 2022.
+Starting magic under Tcl interpreter
+Using the terminal as the console.
+Using NULL graphics device.
+Processing system .magicrc file
+Sourcing design .magicrc for technology sky130A ...
+2 Magic internal units = 1 Lambda
+Input style sky130(vendor): scaleFactor=2, multiplier=2
+The following types are not handled by extraction and will be treated as non-electrical types:
+    mvobsactive ubm 
+Scaled tech values by 2 / 1 to match internal grid scaling
+Loading sky130A Device Generator Menu ...
+Loading "/openlane/scripts/magic/drc.tcl" from command line.
+Warning: Calma reading is not undoable!  I hope that's OK.
+Library written using GDS-II Release 3.0
+Library name: user_project_wrapper
+Reading "sky130_fd_sc_hd__conb_1".
+Reading "sky130_fd_sc_hd__decap_3".
+Reading "sky130_fd_sc_hd__decap_4".
+Reading "sky130_fd_sc_hd__fill_2".
+Reading "sky130_fd_sc_hd__tapvpwrvgnd_1".
+Reading "sky130_fd_sc_hd__decap_8".
+Reading "sky130_fd_sc_hd__decap_12".
+Reading "sky130_fd_sc_hd__buf_2".
+Reading "sky130_fd_sc_hd__fill_1".
+Reading "sky130_fd_sc_hd__diode_2".
+Reading "sky130_fd_sc_hd__decap_6".
+Reading "sky130_fd_sc_hd__clkbuf_1".
+Reading "sky130_fd_sc_hd__nor2_1".
+Reading "sky130_fd_sc_hd__clkbuf_2".
+Reading "sky130_fd_sc_hd__nand2_1".
+Reading "sky130_fd_sc_hd__inv_2".
+Reading "sky130_fd_sc_hd__o21ai_1".
+Reading "sky130_fd_sc_hd__clkinv_2".
+Reading "sky130_fd_sc_hd__and4_1".
+Reading "sky130_fd_sc_hd__and3_1".
+Reading "sky130_fd_sc_hd__and2_1".
+Reading "sky130_fd_sc_hd__or2_1".
+Reading "sky130_fd_sc_hd__a21oi_1".
+Reading "sky130_fd_sc_hd__nand4_2".
+Reading "sky130_fd_sc_hd__a31o_1".
+Reading "sky130_fd_sc_hd__a21o_1".
+Reading "sky130_fd_sc_hd__clkinv_16".
+Reading "sky130_fd_sc_hd__o21a_1".
+Reading "sky130_fd_sc_hd__dfxtp_4".
+Reading "sky130_fd_sc_hd__nand3_1".
+Reading "sky130_fd_sc_hd__and4_2".
+Reading "sky130_fd_sc_hd__mux2_1".
+Reading "sky130_fd_sc_hd__xnor2_1".
+Reading "sky130_fd_sc_hd__o211a_1".
+Reading "sky130_fd_sc_hd__a32o_1".
+Reading "sky130_fd_sc_hd__a21oi_2".
+Reading "sky130_fd_sc_hd__clkbuf_16".
+Reading "sky130_fd_sc_hd__dfxtp_2".
+Reading "sky130_fd_sc_hd__or3b_1".
+Reading "sky130_fd_sc_hd__and3b_1".
+Reading "sky130_fd_sc_hd__dlymetal6s2s_1".
+Reading "sky130_fd_sc_hd__a221o_1".
+Reading "sky130_fd_sc_hd__and2_2".
+Reading "sky130_fd_sc_hd__a41o_1".
+Reading "sky130_fd_sc_hd__and3_2".
+Reading "sky130_fd_sc_hd__buf_1".
+Reading "sky130_fd_sc_hd__o32a_1".
+Reading "sky130_fd_sc_hd__and2b_2".
+Reading "sky130_fd_sc_hd__mux2_2".
+Reading "sky130_fd_sc_hd__buf_4".
+Reading "sky130_fd_sc_hd__clkbuf_4".
+Reading "sky130_fd_sc_hd__and4b_1".
+Reading "sky130_fd_sc_hd__nand2_4".
+Reading "user_proj_example".
+    5000 uses
+    10000 uses
+    15000 uses
+    20000 uses
+    25000 uses
+    30000 uses
+    35000 uses
+    40000 uses
+    45000 uses
+    50000 uses
+Reading "user_project_wrapper".
+[INFO]: Loading user_project_wrapper
+
+DRC style is now "drc(full)"
+Loading DRC CIF style.
+No errors found.
+[INFO]: COUNT: 0
+[INFO]: Should be divided by 3 or 4
+[INFO]: DRC Checking DONE (/Users/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/user_project_wrapper/runs/user_project_wrapper/reports/finishing/drc.rpt)
+[INFO]: Saving mag view with DRC errors (/Users/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/user_project_wrapper/runs/user_project_wrapper/results/finishing/user_project_wrapper.drc.mag)
+[INFO]: Saved
+[INFO]: Converting Magic DRC Violations to Magic Readable Format...
+[INFO]: Converting Magic DRC Violations to Klayout XML Database...
+[INFO]: Converting DRC Violations to RDB Format...
+[INFO]: Converted DRC Violations to RDB Format
+[INFO]: No DRC violations after GDS streaming out.
+[INFO]: Running Antenna Checks...
+[INFO]: Incremented step index to 31.
+[INFO]: Running OpenROAD Antenna Rule Checker...
+OpenROAD 8d53e9b018dec98fa63e907ddeb6c5406f035361 
+This program is licensed under the BSD-3 license. See the LICENSE file for details.
+Components of this program may be licensed under more restrictive licenses which must be honored.
+[INFO ODB-0222] Reading LEF file: /Users/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/user_project_wrapper/runs/user_project_wrapper/tmp/merged_unpadded.lef
+[INFO ODB-0223]     Created 13 technology layers
+[INFO ODB-0224]     Created 25 technology vias
+[INFO ODB-0225]     Created 442 library cells
+[INFO ODB-0226] Finished LEF file:  /Users/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/user_project_wrapper/runs/user_project_wrapper/tmp/merged_unpadded.lef
+[WARNING ORD-0033] -order_wires is deprecated.
+[INFO ODB-0127] Reading DEF file: /Users/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/user_project_wrapper/runs/user_project_wrapper/results/routing/user_project_wrapper.def
+[INFO ODB-0128] Design: user_project_wrapper
+[INFO ODB-0130]     Created 645 pins.
+[INFO ODB-0131]     Created 1 components and 609 component-terminals.
+[INFO ODB-0132]     Created 8 special nets and 0 connections.
+[INFO ODB-0133]     Created 637 nets and 607 connections.
+[INFO ODB-0134] Finished DEF file: /Users/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/user_project_wrapper/runs/user_project_wrapper/results/routing/user_project_wrapper.def
+[INFO ANT-0001] Found 0 pin violations.
+[INFO ANT-0002] Found 0 net violations in 637 nets.
+[INFO]: Skipping CVC...
+[INFO]: Saving final set of views in '/Users/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/user_project_wrapper/runs/user_project_wrapper/results/final'...
+[INFO]: Saving final set of views in '/Users/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic'...
+[INFO]: Calculating Runtime From the Start...
+[INFO]: Saving runtime environment...
+[INFO]: Generating Final Summary Report...
+[INFO]: Design Name: user_project_wrapper
+Run Directory: /Users/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/user_project_wrapper/runs/user_project_wrapper
+----------------------------------------
+
+Magic DRC Summary:
+Source: /Users/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/user_project_wrapper/runs/user_project_wrapper/reports/finishing/drc.rpt
+Total Magic DRC violations is 0
+----------------------------------------
+
+LVS Summary:
+Source: /Users/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/user_project_wrapper/runs/user_project_wrapper/logs/finishing/30-user_project_wrapper.lvs.lef.log
+LVS reports no net, device, pin, or property mismatches.
+Total errors = 0
+----------------------------------------
+
+Antenna Summary:
+Source: /Users/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/user_project_wrapper/runs/user_project_wrapper/reports/finishing/antenna.rpt
+Number of pins violated: 0
+Number of nets violated: 0
+[INFO]: check full report here: /Users/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/user_project_wrapper/runs/user_project_wrapper/reports/final_summary_report.csv
+[WARNING]: There are max slew violations in the design at the typical corner. Please refer to /Users/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/user_project_wrapper/runs/user_project_wrapper/reports/routing/22-parasitics_sta.slew.rpt
+[INFO]: There are no hold violations in the design at the typical corner.
+[INFO]: There are no setup violations in the design at the typical corner.
+[SUCCESS]: Flow complete.
+[INFO]: Note that the following warnings have been generated:
+[WARNING]: Skipping Tap/Decap Insertion.
+[WARNING]: All internal macros will not be connected to power.
+[WARNING]: All internal macros will not be connected to power.
+[WARNING]: All internal macros will not be connected to power.
+[WARNING]: There are max slew violations in the design at the typical corner. Please refer to /Users/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/user_project_wrapper/runs/user_project_wrapper/reports/routing/22-parasitics_sta.slew.rpt
+
+mkdir -p ../signoff/user_project_wrapper/
+cp user_project_wrapper/runs/user_project_wrapper/OPENLANE_VERSION ../signoff/user_project_wrapper/
+cp user_project_wrapper/runs/user_project_wrapper/PDK_SOURCES ../signoff/user_project_wrapper/
+cp user_project_wrapper/runs/user_project_wrapper/reports/final_summary_report.csv ../signoff/user_project_wrapper/
+

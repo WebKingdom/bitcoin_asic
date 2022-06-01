@@ -1,0 +1,133 @@
+CVC: Reading device model settings...
+CVC: Reading power settings...
+CVC: Parsing netlist /Users/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/user_proj_example/runs/user_proj_example/tmp/finishing/user_proj_example.cdl
+
+Cdl fixed data size 826214
+Usage CDL: Time: 0  Memory: 32288  I/O: 4520  Swap: 0
+CVC: Counting and linking...
+CVC: Assigning IDs ...
+Usage DB: Time: 0  Memory: 35888  I/O: 4520  Swap: 0
+CVC: 53232(53232) instances, 3346(3346) nets, 80044(80044) devices.
+Setting power for mode...
+Setting models...
+CVC: Setting models ...
+Setting model tolerances...
+CVC: Shorting switches...
+ model short...
+	Shorted 212 short
+Setting instance power...
+CVC: Linking devices...
+
+Usage EQUIV: Time: 0  Memory: 40320  I/O: 4576  Swap: 0
+Power nets 377
+CVC: Shorting non conducting resistors...
+CVC: Calculating resistor voltages...
+Usage RES: Time: 0  Memory: 40320  I/O: 4576  Swap: 0
+Power nets 377
+CVC: Calculating min/max voltages...
+Processing trivial nets found 1465 trivial nets
+CVC: Ignoring invalid calculations...
+CVC:   Removed 0 calculations
+Copying master nets
+CVC: Ignoring non-conducting devices...
+CVC:   Ignored 0 devices
+Usage MIN/MAX1: Time: 0  Memory: 40640  I/O: 4576  Swap: 0
+Power nets 1088
+! Checking forward bias diode errors: 
+
+! Checking nmos source/drain vs bias errors: 
+
+! Checking nmos gate vs source errors: 
+
+! Checking pmos source/drain vs bias errors: 
+
+! Checking pmos gate vs source errors: 
+
+Usage ERROR: Time: 0  Memory: 40640  I/O: 4576  Swap: 0
+Saving min/max voltages...
+CVC: Propagating Simulation voltages 1...
+Usage SIM1: Time: 0  Memory: 40904  I/O: 4576  Swap: 0
+Power nets 1088
+Saving simulation voltages...
+CVC: Propagating Simulation voltages 3...
+Usage SIM2: Time: 0  Memory: 40904  I/O: 4576  Swap: 0
+Power nets 1088
+Added 0 latch voltages
+CVC: Calculating min/max voltages...
+Processing trivial nets found 1465 trivial nets
+CVC: Ignoring invalid calculations...
+CVC:   Removed 0 calculations
+Copying master nets
+CVC: Ignoring non-conducting devices...
+CVC:   Ignored 0 devices
+Usage MIN/MAX2: Time: 0  Memory: 40904  I/O: 4576  Swap: 0
+Power nets 1799
+! Checking overvoltage errors
+
+! Checking nmos possible leak errors: 
+
+! Checking pmos possible leak errors: 
+
+! Checking mos floating input errors:
+
+! Checking expected values:
+
+CVC: Error Counts
+CVC: Fuse Problems:         0
+CVC: Min Voltage Conflicts: 0
+CVC: Max Voltage Conflicts: 0
+CVC: Leaks:                 0
+CVC: LDD drain->source:     0
+CVC: HI-Z Inputs:           0
+CVC: Forward Bias Diodes:   0
+CVC: NMOS Source vs Bulk:   0
+CVC: NMOS Gate vs Source:   0
+CVC: NMOS Possible Leaks:   0
+CVC: PMOS Source vs Bulk:   0
+CVC: PMOS Gate vs Source:   0
+CVC: PMOS Possible Leaks:   0
+CVC: Overvoltage-VBG:       0
+CVC: Overvoltage-VBS:       0
+CVC: Overvoltage-VDS:       0
+CVC: Overvoltage-VGS:       0
+CVC: Model errors:          0
+CVC: Unexpected voltage :   0
+CVC: Total:                 0
+Usage Total: Time: 0  Memory: 41428  I/O: 4616  Swap: 0
+Virtual net update/access 22346/4164138
+CVC: Log output to /Users/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/user_proj_example/runs/user_proj_example/reports/finishing/user_proj_example.rpt
+CVC: End: Mon May 16 21:17:41 2022
+
+[INFO]: Saving final set of views in '/Users/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/user_proj_example/runs/user_proj_example/results/final'...
+[INFO]: Saving final set of views in '/Users/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic'...
+[INFO]: Calculating Runtime From the Start...
+[INFO]: Saving runtime environment...
+[INFO]: Generating Final Summary Report...
+[INFO]: Design Name: user_proj_example
+Run Directory: /Users/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/user_proj_example/runs/user_proj_example
+----------------------------------------
+
+Magic DRC Summary:
+Source: /Users/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/user_proj_example/runs/user_proj_example/reports/finishing/drc.rpt
+Total Magic DRC violations is 0
+----------------------------------------
+
+LVS Summary:
+Source: /Users/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/user_proj_example/runs/user_proj_example/logs/finishing/34-user_proj_example.lvs.lef.log
+LVS reports no net, device, pin, or property mismatches.
+Total errors = 0
+----------------------------------------
+
+Antenna Summary:
+Source: /Users/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/user_proj_example/runs/user_proj_example/reports/finishing/antenna.rpt
+Number of pins violated: 11
+Number of nets violated: 11
+[INFO]: check full report here: /Users/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/user_proj_example/runs/user_proj_example/reports/final_summary_report.csv
+[INFO]: There are no max slew violations in the design at the typical corner.
+[INFO]: There are no hold violations in the design at the typical corner.
+[INFO]: There are no setup violations in the design at the typical corner.
+[SUCCESS]: Flow complete.
+mkdir -p ../signoff/user_proj_example/
+cp user_proj_example/runs/user_proj_example/OPENLANE_VERSION ../signoff/user_proj_example/
+cp user_proj_example/runs/user_proj_example/PDK_SOURCES ../signoff/user_proj_example/
+cp user_proj_example/runs/user_proj_example/reports/final_summary_report.csv ../signoff/user_proj_example/
