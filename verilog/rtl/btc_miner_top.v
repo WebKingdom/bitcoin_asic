@@ -92,7 +92,11 @@ module btc_miner_top #(
   // SHA module variables
   wire o_error;
   wire o_idle;
-  reg [127:0] la_data_out;  // TODO ensure LA muxing does not require register
+  wire o_sha_cs;
+  wire o_sha_we;
+  wire [7:0] o_sha_address;
+
+  reg [127:0] la_data_out;  // TODO? ensure LA muxing does not require register
 
   // TODO use top 32-bits of LA to control muxing and other variables like starting state machine
   wire [5:0] la_sel;
@@ -118,20 +122,20 @@ module btc_miner_top #(
   assign la_write2 = ~la_oenb[95:64] & ~{BITS{valid}};
   assign la_write3 = ~la_oenb[127:96] & ~{BITS{valid}};
 
-  // Assuming LA probes [107:106] are for controlling the clk & reset  
-  assign clk = (~la_oenb[106]) ? la_data_in[106] : wb_clk_i;
-  assign rst = (~la_oenb[107]) ? la_data_in[107] : wb_rst_i;
+  // Assuming LA probes [111:110] are for controlling the reset & clock
+  assign clk = (~la_oenb[110]) ? la_data_in[110] : wb_clk_i;
+  assign rst = (~la_oenb[111]) ? la_data_in[111] : wb_rst_i;
 
   // TODO more LA muxing
   // la_data_in or la_data_out or la_oenb or la_sel or nonce or block_header or target
   always @(la_data_in || la_oenb || la_sel || rdata || o_error || o_idle) begin
     case (la_sel)
       6'b000000:
-        la_data_out[95:0] <= {{(95-(BITS-2)){1'b0}}, {o_idle, o_error, rdata}};
+        la_data_out <= {{(127-(BITS-12)){1'b0}}, {o_idle, o_error, o_sha_we, o_sha_cs, o_sha_address, rdata}};
 
       default:
         begin
-          // nothing
+          la_data_out <= {{(127-(BITS-12)){1'b0}}, {o_idle, o_error, o_sha_we, o_sha_cs, o_sha_address, rdata}};
         end
     endcase
   end
@@ -150,7 +154,10 @@ module btc_miner_top #(
     .rdata(rdata),
     .ready(wbs_ack_o),
     .error(o_error),
-    .idle(o_idle)
+    .idle(o_idle),
+    .reg_sha_cs(o_sha_cs),
+    .reg_sha_we(o_sha_we),
+    .reg_sha_address(o_sha_address)
   );
 
 endmodule // btc_miner_top
@@ -170,7 +177,10 @@ module miner_ctrl #(
   output reg [BITS-1:0] rdata,
   output reg ready,
   output wire error,
-  output wire idle
+  output wire idle,
+  output reg reg_sha_cs,
+  output reg reg_sha_we,
+  output reg [7:0] reg_sha_address
 );
 
   // sha256 internal constants and parameters
@@ -188,9 +198,29 @@ module miner_ctrl #(
   localparam STATUS_VALID_BIT = 1;
 
   localparam ADDR_BLOCK0    = 8'h10;
+  // localparam ADDR_BLOCK1    = 8'h11;
+  // localparam ADDR_BLOCK2    = 8'h12;
+  // localparam ADDR_BLOCK3    = 8'h13;
+  // localparam ADDR_BLOCK4    = 8'h14;
+  // localparam ADDR_BLOCK5    = 8'h15;
+  // localparam ADDR_BLOCK6    = 8'h16;
+  // localparam ADDR_BLOCK7    = 8'h17;
+  // localparam ADDR_BLOCK8    = 8'h18;
+  // localparam ADDR_BLOCK9    = 8'h19;
+  // localparam ADDR_BLOCK10   = 8'h1a;
+  // localparam ADDR_BLOCK11   = 8'h1b;
+  // localparam ADDR_BLOCK12   = 8'h1c;
+  // localparam ADDR_BLOCK13   = 8'h1d;
+  // localparam ADDR_BLOCK14   = 8'h1e;
   localparam ADDR_BLOCK15   = 8'h1f;
 
   localparam ADDR_DIGEST0   = 8'h20;
+  // localparam ADDR_DIGEST1   = 8'h21;
+  // localparam ADDR_DIGEST2   = 8'h22;
+  // localparam ADDR_DIGEST3   = 8'h23;
+  // localparam ADDR_DIGEST4   = 8'h24;
+  // localparam ADDR_DIGEST5   = 8'h25;
+  // localparam ADDR_DIGEST6   = 8'h26;
   localparam ADDR_DIGEST7   = 8'h27;
 
   localparam MODE_SHA_224   = 1'h0;
@@ -206,21 +236,28 @@ module miner_ctrl #(
   wire sha_cs;
   wire sha_we;
   wire [7:0] sha_address;
-  wire [BITS-1:0] sha_write_data;
-  wire [BITS-1:0] sha_read_data;
+  wire read_status_flag;
+
+  wire [BITS-1:0] sha_write_data; // input to sha256
+  wire [BITS-1:0] sha_read_data;  // output from sha256
 
   wire sha_in_ready;
   wire sha_digest_valid;
   wire auto_ctrl;
 
   assign idle = (state == WAIT_IN) ? 1'b1 : 1'b0;
-  assign start_ctrl = la_input3[12] & la_write3[12];
+  assign start_ctrl = la_input3[10] & la_write3[10];
 
-  assign sha_cs = la_input3[8] & la_write3[8];
-  assign sha_we = la_input3[9] & la_write3[9];
-  assign sha_address = la_input3[7:0] & la_write3[7:0];
+  // automated and manual control
+  assign read_status_flag = sha_cs && !sha_we && (sha_address == ADDR_STATUS);
+  assign sha_in_ready = read_status_flag ? sha_read_data[STATUS_READY_BIT] : 1'b0;
+  assign sha_digest_valid = read_status_flag ? sha_read_data[STATUS_VALID_BIT] : 1'b0;
 
-  assign auto_ctrl = la_input3[13] & la_write3[13];
+  assign auto_ctrl = la_input3[11] & la_write3[11];
+
+  assign sha_cs = auto_ctrl ? reg_sha_cs : (la_input3[8] & la_write3[8]);
+  assign sha_we = auto_ctrl ? reg_sha_we : (la_input3[9] & la_write3[9]);
+  assign sha_address = auto_ctrl ? reg_sha_address : (la_input3[7:0] & la_write3[7:0]);
 
   // need to count to 640/32 = 20 (decimal). Only to 19 b/c nonce is last 32-bits
   integer unsigned count;
@@ -230,6 +267,11 @@ module miner_ctrl #(
       ready <= 0;
       rdata <= 0;
       count <= 0;
+      reg_sha_cs <= 0;
+      reg_sha_we <= 0;
+      reg_sha_address <= 0;
+      // sha_in_ready <= 0;
+      // sha_digest_valid <= 0;
 
       state <= WAIT_IN;
     end else if (auto_ctrl) begin
@@ -239,42 +281,72 @@ module miner_ctrl #(
       case (state)
         WAIT_IN: begin
           // TODO?
-          if (start_ctrl) begin
+          reg_sha_cs <= 1'b1;
+          reg_sha_we <= 1'b0;
+          reg_sha_address <= ADDR_STATUS;
+          
+          if (start_ctrl && sha_in_ready) begin
+            reg_sha_cs <= 1'b1;
+            reg_sha_we <= 1'b1;
             state <= READ_IN;
           end
         end
 
         READ_IN: begin
           // TODO?
+          reg_sha_cs <= 1'b1;
+          reg_sha_we <= 1'b1;
+
           if (valid && !ready) begin
             ready <= 1'b1;
+            sha_write_data <= wdata;
 
             if (wb_wr_mask == 4'b1111) begin
-              // if read up to the last address
-              if ((sha_address == ADDR_BLOCK15) && sha_cs && !sha_we) begin
+              // read up to the last address
+              if (reg_sha_address == ADDR_BLOCK15) begin
                 state <= WAIT_COMPUTE;
+              end else begin
+                // check if 1st write coming from WAIT_IN
+                if (sha_address == ADDR_STATUS) begin
+                  reg_sha_address <= ADDR_BLOCK0;
+                end else begin
+                  reg_sha_address <= reg_sha_address + 1;
+                end
               end
+
             end
           end
         end
 
         WAIT_COMPUTE: begin
           // read status register to determine when done
-          if (sha_cs && !sha_we) begin
-            // TODO read status register and move to WRITE_OUT state
+          reg_sha_cs <= 1'b1;
+          reg_sha_we <= 1'b0;
+          reg_sha_address <= ADDR_STATUS;
 
+          if (sha_digest_valid) begin
+            reg_sha_address <= ADDR_DIGEST0;
+            state <= WRITE_OUT;
           end
         end
-          
+
         WRITE_OUT: begin
-          // TODO
+          // TODO?
+          reg_sha_cs <= 1'b1;
+          reg_sha_we <= 1'b0;
+
           if (valid && !ready) begin
             ready <= 1'b1;
 
-            if (wb_wr_mask == 4'b1111) begin
-              // WB should not be writing to user project
-            end else begin
-              // Place output hash on wishbone
+            // Place output hash on wishbone
+            if (wb_wr_mask == 4'b0000) begin
+              rdata <= sha_read_data;
+              
+              if (reg_sha_address == ADDR_DIGEST7) begin
+                state <= WAIT_IN;
+              end else begin
+                reg_sha_address <= reg_sha_address + 1;
+              end
             end
           end
         end
@@ -283,18 +355,27 @@ module miner_ctrl #(
     end else begin
       // TODO not automated control. FW controls all wr/rd and addresses.
     end
+
+    // set ready and valid bits for sha256 module
+    // if (sha_cs && !sha_we && (sha_address == ADDR_STATUS)) begin
+    //   sha_in_ready <= sha_read_data[STATUS_READY_BIT];
+    //   sha_digest_valid <= sha_read_data[STATUS_VALID_BIT];
+    // end else begin
+    //   sha_in_ready <= 1'b0;
+    //   sha_digest_valid <= 1'b0;
+    // end
   end
 
-  // TODO
+  // TODO handle ADDR_CTRL register! 
   sha256 sha256_inst0(
     .clk(clk),
     .reset_n(~rst),
     .cs(sha_cs),
     .we(sha_we),
     .address(sha_address),
-    .write_data(sha_write_data),
-    .read_data(sha_read_data),
-    .error(error)
+    .write_data(sha_write_data),  // 32-bit input 
+    .read_data(sha_read_data),    // 32-bit output
+    .error(error)                 // 1-bit output
   );
 
 endmodule // miner_ctrl
