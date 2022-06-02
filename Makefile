@@ -14,8 +14,9 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 MAKEFLAGS+=--warn-undefined-variables
-
-CARAVEL_ROOT?=$(PWD)/caravel
+PWD=/home/cviolett/caravel-workspace/
+PDK_ROOT=$(PWD)/pdks
+CARAVEL_ROOT?=$(PWD)/bitcoin_asic/caravel
 PRECHECK_ROOT?=${HOME}/mpw_precheck
 MCW_ROOT?=$(PWD)/mgmt_core_wrapper
 SIM?=RTL
