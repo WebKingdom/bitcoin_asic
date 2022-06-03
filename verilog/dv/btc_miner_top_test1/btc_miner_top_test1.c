@@ -19,19 +19,65 @@
 #include <defs.h>
 #include <stub.c>
 
+// constants
+#define ADDR_CTRL 0x08
+#define CTRL_INIT_BIT 0
+#define CTRL_NEXT_BIT 1
+#define CTRL_MODE_BIT 2
+
+#define ADDR_STATUS 0x09
+#define STATUS_READY_BIT 0
+#define STATUS_VALID_BIT 1
+
+#define ADDR_BLOCK0 0x10
+#define ADDR_BLOCK15 0x1f
+
+#define ADDR_DIGEST0 0x20
+#define ADDR_DIGEST6 0x26
+#define ADDR_DIGEST7 0x27
+
+#define MODE_SHA_224 0
+#define MODE_SHA_256 1
+
+
 /*
-	Wishbone Test:
-		- Configures MPRJ lower 8-IO pins as outputs
-		- Checks counter value through the wishbone port
+	Miner test 1
+    - checks if automated state machine works as expected
 */
+
+// void *memcpy(void *dest, const void *src, uint32_t n)
+// {
+//     for (uint32_t i = 0; i < n; i++)
+//     {
+//         ((char*)dest)[i] = ((char*)src)[i];
+//     }
+// }
+
+
+// void *memcpy (void *dest, const void *src, uint32_t len)
+// {
+//   char *d = dest;
+//   const char *s = src;
+//   while (len--)
+//     *d++ = *s++;
+//   return dest;
+// }
+
 
 void main()
 {
-
     // boolean for validating all tests
     uint32_t testsPassed = 1;
-    // previous result
-    uint32_t prevResult = 0x0000000F;
+
+    // SHA info
+    // uint32_t index = 0;
+    // const uint32_t sha256_input[] = {
+    //     0x00000001, 0x00000002, 0x00000003, 0x00000004,
+    //     0x00000005, 0x00000006, 0x00000007, 0x00000008,
+    //     0x00000009, 0x0000000A, 0x0000000B, 0x0000000C,
+    //     0x0000000D, 0x0000000E, 0x0000000F, 0x00000010
+    // };
+
 
 	/* 
 	IO Control Registers
@@ -80,86 +126,70 @@ void main()
     reg_mprj_xfer = 1;
     while (reg_mprj_xfer == 1);
 
-    // TODO set up testbench
-    // LA probes [31:0] input to the CPU
+    // LA probes [31:0] input to MGMT from USER
     reg_la0_oenb = reg_la0_iena = 0x00000000;    // [31:0]
-    // LA probes [63:32] output from the CPU
-    reg_la1_oenb = reg_la1_iena = 0xFFFFFFFF;    // [63:32]
-    // LA probes [94:64]  input to the CPU and [95:94] output from CPU (for nAdd_Sub and use_prev_result)
-	reg_la2_oenb = reg_la2_iena = 0xC0000000;    // [95:64]
+    // LA probes [63:32] input to MGMT from USER
+    reg_la1_oenb = reg_la1_iena = 0x00000000;    // [63:32]
+    // LA probes [95:64]  input to MGMT from USER
+	reg_la2_oenb = reg_la2_iena = 0x00000000;    // [95:64]
+    // LA probes [127:96] output from MGMT into USER
+	reg_la3_oenb = reg_la3_iena = 0xFFFF3FFF;    // [127:96]
 
-    // set prev_result for testing
-    reg_la1_data = prevResult;
-    // LA probes [63:32] input to the CPU (disable counter writes)
-    // reg_la1_oenb = reg_la1_iena = 0x00000000;    // [63:32]
-
-    // set nAdd_sub to 0 -> add operation
-    reg_la2_data = 0x00000000;
+    // set control information to SHA256, init, and auto_ctrl
+    reg_la3_data = 0x00050800;
 
     // Flag start of the test
-	reg_mprj_datal = 0xAB600000;
+	reg_mprj_datal = 0xFEED0000;
     // reg_mprj_datah = 0x00000000;
 
-    // Set initial value of adder
-    reg_mprj_slave = 0x00FF00FF;
-    if (reg_mprj_slave == 0x000001FE)
+    // set control information to SHA256: sha_mode, sha_init, auto_ctrl, and start_ctrl
+    // TODO? init bit starts sha_core!?
+    reg_la3_data = 0x00050C00;
+
+    // TODO could put in loop?
+    // Write input to sha module
+    reg_mprj_slave = 0x0FAB0FAB;
+    // reg_mprj_slave = sha256_input[index];
+    // index++;
+    // sha_addr == ADDR_CTRL && sha_we && sha_cs && sha_read_data == 0
+    if (((reg_la2_data & 0xFF) == ADDR_CTRL) && ((reg_la2_data & 0xF00) == 0x3) && (reg_la1_data == 0x0))
     {
-        prevResult = reg_mprj_slave;
+        // read 1st input
         testsPassed = testsPassed & 1;
     }
     else
     {
-        prevResult = 0xBAD0BAD0;
+        // did not read input
         testsPassed = testsPassed & 0;
     }
 
-    // set prev_result on LA
-    reg_la1_data = prevResult;
+    // set control information to SHA256: disable start_ctrl
+    reg_la3_data = 0x00050800;
 
-    // set nAdd_sub and previous result computation flags
-    reg_la2_data = 0x40000000;
-
-    // set previous result as input to adder (0x1FE)
-    reg_mprj_slave = prevResult;
-
-    // continue adding previous result to itself
-    while (reg_mprj_slave < 0x07F80000)
+    // Write input to sha module
+    reg_mprj_slave = 0x0000F00D;
+    // reg_mprj_slave = sha256_input[index];
+    // index++;
+    // sha_addr == ADDR_CTRL && sha_we && sha_cs && sha_read_data == 0
+    if (((reg_la2_data & 0xFF) == ADDR_BLOCK0) && ((reg_la2_data & 0xF00) == 0x3) && (reg_la1_data == 0x0))
     {
-        if (reg_mprj_slave == (prevResult + prevResult))
-        {
-            // set previous result to adder output
-            prevResult = reg_mprj_slave;
-            testsPassed = testsPassed & 1;
-
-            // set prev_result on LA
-            reg_la1_data = prevResult;
-            // set previous result as input to adder
-            reg_mprj_slave = prevResult;
-        }
-        else
-        {
-            // set previous result to adder output
-            prevResult = reg_mprj_slave;
-            testsPassed = testsPassed & 0;
-
-            // set prev_result on LA
-            reg_la1_data = 0xBAD0BAD0;
-            break;
-        }
+        // read 2nd input
+        testsPassed = testsPassed & 1;
+    }
+    else
+    {
+        // did not read input
+        testsPassed = testsPassed & 0;
     }
 
 
     if (testsPassed)
     {
-        // set previous result to adder output
-        prevResult = reg_mprj_slave;
-        // set prev_result on LA
-        reg_la1_data = prevResult;
-
-        reg_mprj_datal = 0xAB610000;
+        // Successfully ended test
+        reg_mprj_datal = 0xDEAD0000;
     }
     else
     {
-        reg_mprj_datal = 0xAB620000;
+        reg_mprj_datal = 0xBAD0BAD0;
     }
 }

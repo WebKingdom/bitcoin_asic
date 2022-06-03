@@ -55,9 +55,9 @@ module btc_miner_top_test1_tb;
 		end
 		$display("%c[1;31m",27);
 		`ifdef GL
-			$display ("Monitor: Timeout, Adder Test 2 (GL) Failed");
+			$display ("Monitor: Timeout, Miner Test 1 (GL) Failed");
 		`else
-			$display ("Monitor: Timeout, Adder Test 2 (RTL) Failed");
+			$display ("Monitor: Timeout, Miner Test 1 (RTL) Failed");
 		`endif
 		$display("%c[0m",27);
 		$finish;
@@ -65,13 +65,13 @@ module btc_miner_top_test1_tb;
 
 	// TODO change finish conditions
 	initial begin
-	  wait(checkbits == 16'hAB60);
-		$display("Monitor: Adder Test 2 Started");
-		wait(checkbits == 16'hAB61);
+	  wait(checkbits == 16'hFEED);
+		$display("Monitor: Miner Test 1 Started");
+		wait(checkbits == 16'hDEAD);
 		`ifdef GL
-				$display("Monitor: Adder Test 2 (GL) Passed");
+				$display("Monitor: Miner Test 1 (GL) Passed");
 		`else
-				$display("Monitor: Adder Test 2 (RTL) Passed");
+				$display("Monitor: Miner Test 1 (RTL) Passed");
 		`endif
 			$finish;
 	end
