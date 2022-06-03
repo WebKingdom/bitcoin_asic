@@ -3,3 +3,7 @@ $USER_PROJECT_VERILOG/gl/user_project_wrapper.v
 $USER_PROJECT_VERILOG/gl/user_proj_example.v
 $USER_PROJECT_VERILOG/gl/user_adder.v
 $USER_PROJECT_VERILOG/gl/btc_miner_top.v
+$USER_PROJECT_VERILOG/gl/sha256.v
+$USER_PROJECT_VERILOG/gl/sha256_core.v
+$USER_PROJECT_VERILOG/gl/sha256_k_constants.v
+$USER_PROJECT_VERILOG/gl/sha256_w_mem.v
