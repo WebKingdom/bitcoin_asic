@@ -36,30 +36,43 @@ set ::env(CLOCK_PERIOD) "10"
 
 # always got: "There are hold violations in the design at the typical corner" when FP_SIZING was absolute... 
 # no matter what PL or GLB parameters I set. tried increasing both HOLD_MAX_BUFFER_PERCENT and HOLD_SLACK_MARGIN to 80% and 0.3ns
-set ::env(FP_SIZING) relative
+set ::env(FP_SIZING) absolute
 # max area in wrapper: 0 0 2920 3520
-set ::env(DIE_AREA) "0 0 900 600"
+set ::env(DIE_AREA) "0 0 2920 3520"
 
 set ::env(FP_PIN_ORDER_CFG) $script_dir/pin_order.cfg
 
 set ::env(PL_BASIC_PLACEMENT) 0
-set ::env(PL_TARGET_DENSITY) 0.6
-set ::env(FP_CORE_UTIL) 50
+set ::env(PL_TARGET_DENSITY) 0.98
+set ::env(FP_CORE_UTIL) 95
 # with 10%: detailed placement faild and had setup violations
-# with 50%: 
+# with 50%: detailed placement faild and had setup violations
+# with 100% and 0.7: "Utilization exceeds 100%." Ran out of space?
+# with 90% and 0.7: "Use a higher -density or re-floorplan with a larger core area. Suggested target density: 0.92" 
+# with 95% and 0.9: "Use a higher -density or re-floorplan with a larger core area. Suggested target density: 0.98"
+
+# DIE_AREA: "0 0 2920 3520" and FP_SIZING: relative
+# with 98% and 0.98: "Utilization exceeds 100%." (Chip area: 158121.651200) (PlaceInstsArea: 158121651200) (NonPlaceInstsArea: 3992579200) (CoreArea: 160567747200)
+# with 95% and 1: "Detailed placement failed." "Error: resizer.tcl, 78 DPL-0036" 
+# with 95% and 0.98: "Use a higher -density or re-floorplan with a larger core area." (PlaceInstsArea: 158121651200) (NonPlaceInstsArea: 4046380800) (Util(%): 98.13) (CoreArea: 165175916800)
+
+# DIE_AREA: "0 0 2920 3520" and FP_SIZING: absolute
+# with 95% and 0.98: "Detailed placement failed." "Error: resizer.tcl, 78 DPL-0036"
+
 # Not sure how FP_SIZING absolute and relative works excatly and how DIE_AREA affects the overall size and constraints
 
-# set ::env(PL_RANDOM_GLB_PLACEMENT) 0
+# set ::env(ROUTING_CORES) 4
+set ::env(PL_RANDOM_GLB_PLACEMENT) 0
 # set ::env(PL_RESIZER_ALLOW_SETUP_VIOS) 1
 # set ::env(GLB_RESIZER_ALLOW_SETUP_VIOS) 1
 
-# set ::env(PL_RESIZER_HOLD_MAX_BUFFER_PERCENT) 80
-# set ::env(GLB_RESIZER_HOLD_MAX_BUFFER_PERCENT) 80
+set ::env(PL_RESIZER_HOLD_MAX_BUFFER_PERCENT) 80
+set ::env(GLB_RESIZER_HOLD_MAX_BUFFER_PERCENT) 80
 # set ::env(PL_RESIZER_HOLD_SLACK_MARGIN) 0.1ns
 # set ::env(GLB_RESIZER_HOLD_SLACK_MARGIN) 0.1ns
 
-# set ::nev(PL_RESIZER_SETUP_MAX_BUFFER_PERCENT) 80
-# set ::nev(GLB_RESIZER_SETUP_MAX_BUFFER_PERCENT) 80
+set ::nev(PL_RESIZER_SETUP_MAX_BUFFER_PERCENT) 80
+set ::nev(GLB_RESIZER_SETUP_MAX_BUFFER_PERCENT) 80
 # set ::env(PL_RESIZER_SETUP_SLACK_MARGIN) 0.05ns
 # set ::env(GLB_RESIZER_SETUP_SLACK_MARGIN) 0.05ns
 
