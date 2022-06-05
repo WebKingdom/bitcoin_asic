@@ -15,9 +15,9 @@
 # SPDX-License-Identifier: Apache-2.0
 MAKEFLAGS+=--warn-undefined-variables
 
-CARAVEL_ROOT?=$(PWD)/caravel
-PRECHECK_ROOT?=${HOME}/mpw_precheck
-MCW_ROOT?=$(PWD)/mgmt_core_wrapper
+CARAVEL_ROOT?=$(shell pwd)/caravel
+PRECHECK_ROOT?=${shell HOME}/BitcoinAsic/bitcoin-asic/mpw_precheck
+MCW_ROOT?=$(shell pwd)/mgmt_core_wrapper
 SIM?=RTL
 
 export SKYWATER_COMMIT=c094b6e83a4f9298e47f696ec5a7fd53535ec5eb
