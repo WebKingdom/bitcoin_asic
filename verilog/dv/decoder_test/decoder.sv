@@ -13,36 +13,20 @@
 module decoder (input logic [31:0] target,
                     output logic [255:0] fullTarget);
 
-	logic [3:0] sizeTens;
-    logic [3:0] sizeOnes;
-    logic [255:0] decoded;
-    integer spacing;
-    integer leftBuffer;
+	logic [7:0] shift_amount;
+    logic [255:0] temp_reg;
     integer i;
     initial begin
-        sizeTens=target[31:28];
-        sizeOnes=target[27:24];
 
-        //IDK if this is legal
-        spacing  = sizeTens*16+sizeOnes;
+        shift_amount=target[31:24];
 
-        leftBuffer = 32-spacing;
-
-        //Pad left side based on first 2 bytes
-        for(i=255;i>254-leftBuffer;i--)
-            decoded[i] = 0;
+        for(i = 23;i>-1;i--)
+            temp_reg[232+i]=target[i];
         
-        //Set value within middle of target
-        i=0;
-        while(i<24) begin
-            decoded[255-leftBuffer-25+i] = target[i];
-            i++;
-        end
-        //Pad the rest
-        for(i=255-leftBuffer-26;i>-1;i--)
-            decoded[i]=0;
+        for(i = 231;i>-1;i--)
+            temp_reg[i]=0;
 
-        fullTarget = decoded;
+        assign fullTarget = temp_reg >> shift_amount;
     end
 
 
