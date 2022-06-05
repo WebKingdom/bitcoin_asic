@@ -69,6 +69,16 @@ void main()
     // boolean for validating all tests
     uint32_t testsPassed = 1;
 
+    // could put into array
+    uint32_t hash_out0 = 0;
+    uint32_t hash_out1 = 0;
+    uint32_t hash_out2 = 0;
+    uint32_t hash_out3 = 0;
+    uint32_t hash_out4 = 0;
+    uint32_t hash_out5 = 0;
+    uint32_t hash_out6 = 0;
+    uint32_t hash_out7 = 0;
+
     // SHA info
     // uint32_t index = 0;
     // const uint32_t sha256_input[] = {
@@ -135,58 +145,159 @@ void main()
     // LA probes [127:96] output from MGMT into USER
 	reg_la3_oenb = reg_la3_iena = 0xFFFF3FFF;    // [127:96]
 
-    // set control information to SHA256, init, and auto_ctrl
-    reg_la3_data = 0x00050800;
-
     // Flag start of the test
-	reg_mprj_datal = 0xFEED0000;
+	reg_mprj_datal = 0xFEEDFEED;
     // reg_mprj_datah = 0x00000000;
 
     // set control information to SHA256: sha_mode, sha_init, auto_ctrl, and start_ctrl
-    // TODO? init bit starts sha_core!?
+    // *init bit starts sha_core, but only write to control register after reading in 512-bit input!
     reg_la3_data = 0x00050C00;
-
+    
     // TODO could put in loop?
-    // Write input to sha module
     reg_mprj_slave = 0x0FAB0FAB;
     // reg_mprj_slave = sha256_input[index];
     // index++;
-    // sha_addr == ADDR_CTRL && sha_we && sha_cs && sha_read_data == 0
-    if (((reg_la2_data & 0xFF) == ADDR_CTRL) && ((reg_la2_data & 0xF00) == 0x3) && (reg_la1_data == 0x0))
+    // sha_addr == ADDR_BLOCK0 && sha_we && sha_cs && sha_read_data == 0
+    if (((reg_la2_data & 0x000000FF) == 0x10) && ((reg_la2_data & 0x00000F00) == 0x300))
     {
-        // read 1st input
+        // Write 1st input to sha module
         testsPassed = testsPassed & 1;
     }
     else
     {
         // did not read input
         testsPassed = testsPassed & 0;
+        reg_mprj_datal = 0xBAD0BAD0;
     }
 
     // set control information to SHA256: disable start_ctrl
     reg_la3_data = 0x00050800;
 
-    // Write input to sha module
     reg_mprj_slave = 0x0000F00D;
     // reg_mprj_slave = sha256_input[index];
     // index++;
-    // sha_addr == ADDR_CTRL && sha_we && sha_cs && sha_read_data == 0
-    if (((reg_la2_data & 0xFF) == ADDR_BLOCK0) && ((reg_la2_data & 0xF00) == 0x3) && (reg_la1_data == 0x0))
+    // sha_addr == ADDR_BLOCK1 && sha_we && sha_cs && sha_read_data == 0
+    if (((reg_la2_data & 0x000000FF) == 0x11) && ((reg_la2_data & 0x00000F00) == 0x300))
     {
-        // read 2nd input
+        // Write 2nd input to sha module
         testsPassed = testsPassed & 1;
     }
     else
     {
         // did not read input
         testsPassed = testsPassed & 0;
+        reg_mprj_datal = 0xBAD0BAD0;
+    }
+
+    reg_mprj_slave = 0x0001F00D;
+    reg_mprj_slave = 0x0002F00D;
+    reg_mprj_slave = 0x0003F00D;
+    reg_mprj_slave = 0x0004F00D;
+    reg_mprj_slave = 0x0005F00D;
+    reg_mprj_slave = 0x0006F00D;
+    reg_mprj_slave = 0x0007F00D;
+    reg_mprj_slave = 0x0008F00D;
+    reg_mprj_slave = 0x0009F00D;
+    reg_mprj_slave = 0x000AF00D;
+    reg_mprj_slave = 0x000BF00D;
+    reg_mprj_slave = 0x000CF00D;
+    reg_mprj_slave = 0x000DF00D;
+    reg_mprj_slave = 0x000EF00D;
+
+    // read valid output hash (digest)
+    hash_out0 = reg_mprj_slave;
+    if (((reg_la2_data & 0x000000FF) == 0x20) && ((reg_la2_data & 0x00000F00) == 0x100))
+    {
+        testsPassed = testsPassed & 1;
+    }
+    else
+    {
+        testsPassed = testsPassed & 0;
+        reg_mprj_datal = 0xBAD0BAD0;
+    }
+
+    hash_out1 = reg_mprj_slave;
+    if (((reg_la2_data & 0x000000FF) == (0x20 + 1)) && ((reg_la2_data & 0x00000F00) == 0x100))
+    {
+        testsPassed = testsPassed & 1;
+    }
+    else
+    {
+        testsPassed = testsPassed & 0;
+        reg_mprj_datal = 0xBAD0BAD0;
+    }
+
+    hash_out2 = reg_mprj_slave;
+    if (((reg_la2_data & 0x000000FF) == (0x20 + 2)) && ((reg_la2_data & 0x00000F00) == 0x100))
+    {
+        testsPassed = testsPassed & 1;
+    }
+    else
+    {
+        testsPassed = testsPassed & 0;
+        reg_mprj_datal = 0xBAD0BAD0;
+    }
+
+    hash_out3 = reg_mprj_slave;
+    if (((reg_la2_data & 0x000000FF) == (0x20 + 3)) && ((reg_la2_data & 0x00000F00) == 0x100))
+    {
+        testsPassed = testsPassed & 1;
+    }
+    else
+    {
+        testsPassed = testsPassed & 0;
+        reg_mprj_datal = 0xBAD0BAD0;
+    }
+
+    hash_out4 = reg_mprj_slave;
+    if (((reg_la2_data & 0x000000FF) == (0x20 + 4)) && ((reg_la2_data & 0x00000F00) == 0x100))
+    {
+        testsPassed = testsPassed & 1;
+    }
+    else
+    {
+        testsPassed = testsPassed & 0;
+        reg_mprj_datal = 0xBAD0BAD0;
+    }
+
+    hash_out5 = reg_mprj_slave;
+    if (((reg_la2_data & 0x000000FF) == (0x20 + 5)) && ((reg_la2_data & 0x00000F00) == 0x100))
+    {
+        testsPassed = testsPassed & 1;
+    }
+    else
+    {
+        testsPassed = testsPassed & 0;
+        reg_mprj_datal = 0xBAD0BAD0;
+    }
+
+    hash_out6 = reg_mprj_slave;
+    if (((reg_la2_data & 0x000000FF) == (0x20 + 6)) && ((reg_la2_data & 0x00000F00) == 0x100))
+    {
+        testsPassed = testsPassed & 1;
+    }
+    else
+    {
+        testsPassed = testsPassed & 0;
+        reg_mprj_datal = 0xBAD0BAD0;
+    }
+
+    hash_out7 = reg_mprj_slave;
+    if (((reg_la2_data & 0x000000FF) == 0x27) && ((reg_la2_data & 0x00000F00) == 0x100))
+    {
+        testsPassed = testsPassed & 1;
+    }
+    else
+    {
+        testsPassed = testsPassed & 0;
+        reg_mprj_datal = 0xBAD0BAD0;
     }
 
 
     if (testsPassed)
     {
         // Successfully ended test
-        reg_mprj_datal = 0xDEAD0000;
+        reg_mprj_datal = 0xDEADDEAD;
     }
     else
     {

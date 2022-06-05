@@ -49,7 +49,7 @@ module btc_miner_top_test1_tb;
 		$dumpvars(0, btc_miner_top_test1_tb);
 
 		// Repeat cycles of 1000 clock edges as needed to complete testbench
-		repeat (220) begin
+		repeat (100) begin
 			repeat (1000) @(posedge clock);
 			// $display("+1000 cycles");
 		end

@@ -86,11 +86,10 @@ module btc_miner_top #(
   wire [7:0] o_sha_address;
   wire [BITS-1:0] o_sha_read_data;
 
-  reg [127:0] la_data_out;  // TODO? ensure LA muxing does not require register
-
   // TODO use top 32-bits of LA to control muxing and other variables like starting state machine
   wire [5:0] la_sel;
   assign la_sel = la_data_in[127:122];
+  wire [75:0] la_data_out_w;
 
   // WB MI A
   assign valid = wbs_cyc_i && wbs_stb_i; 
@@ -112,22 +111,29 @@ module btc_miner_top #(
   assign la_write2 = ~la_oenb[95:64] & ~{BITS{valid}};
   assign la_write3 = ~la_oenb[127:96] & ~{BITS{valid}};
 
+  assign la_data_out_w = {o_idle, o_error, o_sha_we, o_sha_cs, o_sha_address, o_sha_read_data, rdata};
+
   // Assuming LA probes [111:110] are for controlling the reset & clock
   assign clk = (~la_oenb[110]) ? la_data_in[110] : wb_clk_i;
   assign rst = (~la_oenb[111]) ? la_data_in[111] : wb_rst_i;
 
   // TODO more LA muxing
-  always @(la_data_in || la_oenb || la_sel || o_idle || o_error || o_sha_we || o_sha_cs || o_sha_address || o_sha_read_data || rdata) begin
-    case (la_sel)
-      6'b000000:
-        la_data_out <= {{(127-((2*BITS)-12)){1'b0}}, {o_idle, o_error, o_sha_we, o_sha_cs, o_sha_address, o_sha_read_data, rdata}};
+  assign la_data_out = (la_sel == 6'b000000) ? {{52{1'b0}}, la_data_out_w} : ((la_sel == 6'b000001) ? {{52{1'b0}}, la_data_out_w} : {{52{1'b0}}, la_data_out_w});
+  // always @(clk || la_data_in || la_oenb || la_sel || la_data_out_w) begin
+  //   if (rst) begin
+  //     la_data_out <= 0;
+  //   end else begin
+  //     case (la_sel)
+  //     6'b000000:
+  //       la_data_out <= {{52{1'b0}}, la_data_out_w};
 
-      default:
-        begin
-          la_data_out <= {{(127-((2*BITS)-12)){1'b0}}, {o_idle, o_error, o_sha_we, o_sha_cs, o_sha_address, o_sha_read_data, rdata}};
-        end
-    endcase
-  end
+  //     default:
+  //       begin
+  //         la_data_out <= {{52{1'b0}}, la_data_out_w};
+  //       end
+  //   endcase
+  //   end
+  // end
 
   // module for controlling the sha module
   miner_ctrl #(
@@ -146,7 +152,7 @@ module btc_miner_top #(
     .idle(o_idle),
     .reg_sha_cs(o_sha_cs),
     .reg_sha_we(o_sha_we),
-    .reg_sha_address(o_sha_address),
+    .sha_address(o_sha_address),
     .sha_read_data(o_sha_read_data)
   );
 
@@ -170,7 +176,7 @@ module miner_ctrl #(
   output wire idle,
   output reg reg_sha_cs,
   output reg reg_sha_we,
-  output reg [7:0] reg_sha_address,
+  output wire [7:0] sha_address,
   output wire [BITS-1:0] sha_read_data  // output from sha256
 );
 
@@ -202,7 +208,7 @@ module miner_ctrl #(
   // localparam ADDR_BLOCK11   = 8'h1b;
   // localparam ADDR_BLOCK12   = 8'h1c;
   // localparam ADDR_BLOCK13   = 8'h1d;
-  // localparam ADDR_BLOCK14   = 8'h1e;
+  localparam ADDR_BLOCK14   = 8'h1e;
   localparam ADDR_BLOCK15   = 8'h1f;
 
   localparam ADDR_DIGEST0   = 8'h20;
@@ -219,14 +225,14 @@ module miner_ctrl #(
 
   // enum logic [1:0] {WAIT_IN=2'b00, READ_IN=2'b01, WAIT_COMPUTE=2'b10, CHECK=2'b11, WRITE_OUT=} state;
   // enum integer unsigned {WAIT_IN=0, READ_IN=1, WAIT_COMPUTE=2, INCR_NONCE=3, WRITE_OUT=4} state;
-  localparam WAIT_IN=0, WRITE_CTRL=1, READ_IN=2, WAIT_COMPUTE=3, WRITE_OUT=4;
+  localparam WAIT_IN=0, READ_IN=1, WRITE_CTRL=2, WAIT_COMPUTE=3, WRITE_OUT=4;
 
   reg [2:0] state;
 
   wire start_ctrl;
   wire sha_cs;
   wire sha_we;
-  wire [7:0] sha_address;
+  reg [7:0] reg_sha_address;
 
   // sha_mode, sha_next, sha_init. Map to ADDR_CTRL register [2:0]
   wire [2:0] sha_ctrl_bits;
@@ -239,19 +245,27 @@ module miner_ctrl #(
   wire auto_ctrl;
 
   assign idle = (state == WAIT_IN) ? 1'b1 : 1'b0;
-  assign start_ctrl = la_input3[10] & la_write3[10];
+
+  // * la_write is 0 when valid is 1 !!
+  // assign start_ctrl = la_input3[10] & la_write3[10];
+  assign start_ctrl = la_input3[10];  
 
   // automated and manual control
   assign read_status_flag = sha_cs && !sha_we && (sha_address == ADDR_STATUS);
   assign sha_in_ready = read_status_flag ? sha_read_data[STATUS_READY_BIT] : 1'b0;
   assign sha_digest_valid = read_status_flag ? sha_read_data[STATUS_VALID_BIT] : 1'b0;
 
-  assign auto_ctrl = la_input3[11] & la_write3[11];
+  // assign auto_ctrl = la_input3[11] & la_write3[11];
+  assign auto_ctrl = la_input3[11];
 
-  assign sha_cs = auto_ctrl ? reg_sha_cs : (la_input3[8] & la_write3[8]);
-  assign sha_we = auto_ctrl ? reg_sha_we : (la_input3[9] & la_write3[9]);
-  assign sha_address = auto_ctrl ? reg_sha_address : (la_input3[7:0] & la_write3[7:0]);
-  assign sha_ctrl_bits = la_input3[18:16] & la_write3[18:16];
+  // assign sha_cs = auto_ctrl ? reg_sha_cs : (la_input3[8] & la_write3[8]);
+  // assign sha_we = auto_ctrl ? reg_sha_we : (la_input3[9] & la_write3[9]);
+  // assign sha_address = auto_ctrl ? reg_sha_address : (la_input3[7:0] & la_write3[7:0]);
+  // assign sha_ctrl_bits = la_input3[18:16] & la_write3[18:16];
+  assign sha_cs = auto_ctrl ? reg_sha_cs : la_input3[8];
+  assign sha_we = auto_ctrl ? reg_sha_we : la_input3[9];
+  assign sha_address = auto_ctrl ? reg_sha_address : la_input3[7:0];
+  assign sha_ctrl_bits = la_input3[18:16];
 
   // need to count to 640/32 = 20 (decimal). Only to 19 b/c nonce is last 32-bits
   integer unsigned count;
@@ -269,20 +283,46 @@ module miner_ctrl #(
     end else if (auto_ctrl) begin
       ready <= 1'b0;
 
-      // state machine for controlling miner and I/O
+      // state machine for controlling SHA module and I/O
       case (state)
         WAIT_IN: begin
           // wait for LA start input and for sha module to be ready
           reg_sha_cs <= 1'b1;
           reg_sha_we <= 1'b0;
           reg_sha_address <= ADDR_STATUS;
-          sha_write_data <= {{(BITS-3){1'b0}}, {sha_ctrl_bits}};
 
           if (start_ctrl && sha_in_ready) begin
             reg_sha_cs <= 1'b1;
             reg_sha_we <= 1'b1;
-            reg_sha_address <= ADDR_CTRL;
-            state <= WRITE_CTRL;
+            state <= READ_IN;
+          end
+        end
+
+        READ_IN: begin
+          // read in 512-bit input to sha module through WB
+          reg_sha_cs <= 1'b1;
+          reg_sha_we <= 1'b1;
+
+          if (valid && !ready) begin
+            ready <= 1'b1;
+            sha_write_data <= wdata;
+
+            if (wb_wr_mask == 4'b1111) begin
+              // read up to the last address
+              if (sha_address == ADDR_BLOCK14) begin
+                // new addr will be ADDR_BLOCK15
+                reg_sha_address <= reg_sha_address + 1;
+                state <= WRITE_CTRL;
+              end else begin
+                // check if 1st write coming from WAIT_IN
+                if (sha_address == ADDR_STATUS) begin
+                  reg_sha_address <= ADDR_BLOCK0;
+                end else begin
+                  reg_sha_address <= reg_sha_address + 1;
+                end
+              end
+            end
+
           end
         end
 
@@ -295,40 +335,13 @@ module miner_ctrl #(
           // write and read back to ensure CTRL is set
           if (reg_sha_we == 1'b0) begin
             if (sha_read_data[2:0] == sha_ctrl_bits) begin
-              state <= READ_IN;
+              state <= WAIT_COMPUTE;
             end
             reg_sha_we <= 1'b1;
           end else begin
             reg_sha_we <= 1'b0;
           end
         end
-
-        READ_IN: begin
-          // read in 512 bit input to sha module
-          reg_sha_cs <= 1'b1;
-          reg_sha_we <= 1'b1;
-
-          if (valid && !ready) begin
-            ready <= 1'b1;
-            sha_write_data <= wdata;
-
-            if (wb_wr_mask == 4'b1111) begin
-              // read up to the last address
-              if (sha_address == ADDR_BLOCK15) begin
-                state <= WAIT_COMPUTE;
-              end else begin
-                // check if 1st write coming from WRITE_CTRL
-                if (sha_address == ADDR_CTRL) begin
-                  reg_sha_address <= ADDR_BLOCK0;
-                end else begin
-                  reg_sha_address <= reg_sha_address + 1;
-                end
-              end
-            end
-
-          end
-        end
-        // TODO? could do a check and read back 512-bit block to ensure it is correct
 
         WAIT_COMPUTE: begin
           // read status register to determine when done
@@ -343,7 +356,7 @@ module miner_ctrl #(
         end
 
         WRITE_OUT: begin
-          // TODO?
+          // write valid 256-bit digest to WB
           reg_sha_cs <= 1'b1;
           reg_sha_we <= 1'b0;
 
@@ -355,9 +368,11 @@ module miner_ctrl #(
               rdata <= sha_read_data;
               
               if ((sha_ctrl_bits[2] == MODE_SHA_256) && sha_address == ADDR_DIGEST7) begin
+                reg_sha_address <= ADDR_STATUS;
                 state <= WAIT_IN;
               end else if ((sha_ctrl_bits[2] == MODE_SHA_224) && (sha_address == ADDR_DIGEST6)) begin
                 // only read 7 words from digest reg
+                reg_sha_address <= ADDR_STATUS;
                 state <= WAIT_IN;
               end else begin
                 reg_sha_address <= reg_sha_address + 1;
