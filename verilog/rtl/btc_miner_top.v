@@ -267,14 +267,11 @@ module miner_ctrl #(
   assign sha_address = auto_ctrl ? reg_sha_address : la_input3[7:0];
   assign sha_ctrl_bits = la_input3[18:16];
 
-  // need to count to 640/32 = 20 (decimal). Only to 19 b/c nonce is last 32-bits
-  integer unsigned count;
 
   always @(posedge clk) begin
     if (rst) begin
-      ready <= 0;
       rdata <= 0;
-      count <= 0;
+      ready <= 0;
       reg_sha_cs <= 0;
       reg_sha_we <= 0;
       reg_sha_address <= 0;
@@ -367,7 +364,7 @@ module miner_ctrl #(
             if (wb_wr_mask == 4'b0000) begin
               rdata <= sha_read_data;
               
-              if ((sha_ctrl_bits[2] == MODE_SHA_256) && sha_address == ADDR_DIGEST7) begin
+              if ((sha_ctrl_bits[2] == MODE_SHA_256) && (sha_address == ADDR_DIGEST7)) begin
                 reg_sha_address <= ADDR_STATUS;
                 state <= WAIT_IN;
               end else if ((sha_ctrl_bits[2] == MODE_SHA_224) && (sha_address == ADDR_DIGEST6)) begin
