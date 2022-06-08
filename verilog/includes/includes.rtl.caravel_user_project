@@ -4,6 +4,3 @@
 -v $(USER_PROJECT_VERILOG)/rtl/user_adder.v
 -v $(USER_PROJECT_VERILOG)/rtl/btc_miner_top.v
 -v $(USER_PROJECT_VERILOG)/rtl/sha256.v
--v $(USER_PROJECT_VERILOG)/rtl/sha256_core.v
--v $(USER_PROJECT_VERILOG)/rtl/sha256_k_constants.v
--v $(USER_PROJECT_VERILOG)/rtl/sha256_w_mem.v

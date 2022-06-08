@@ -111,10 +111,14 @@ module sha256(
   //----------------------------------------------------------------
   // Wires.
   //----------------------------------------------------------------
-  wire           core_ready;
+  // wire           core_ready;
   wire [511 : 0] core_block;
-  wire [255 : 0] core_digest;
-  wire           core_digest_valid;
+  // wire [255 : 0] core_digest;
+  // wire           core_digest_valid;
+
+  // simplified design
+  wire [31:0] added_data [7:0];
+  // wire [63:0] multiplied_data [3:0];
 
   reg [31 : 0]   tmp_read_data;
   reg            tmp_error;
@@ -131,25 +135,39 @@ module sha256(
   assign read_data = tmp_read_data;
   assign error     = tmp_error;
 
+  assign added_data[0] = block_reg[00] + block_reg[01];
+  assign added_data[1] = block_reg[02] + block_reg[03];
+  assign added_data[2] = block_reg[04] + block_reg[05];
+  assign added_data[3] = block_reg[06] + block_reg[07];
+  assign added_data[4] = block_reg[08] + block_reg[09];
+  assign added_data[5] = block_reg[10] + block_reg[11];
+  assign added_data[6] = block_reg[12] + block_reg[13];
+  assign added_data[7] = block_reg[14] + block_reg[15];
+
+  // assign multiplied_data[0] = block_reg[00] * block_reg[01];
+  // assign multiplied_data[1] = block_reg[02] * block_reg[03];
+  // assign multiplied_data[2] = block_reg[04] * block_reg[05];
+  // assign multiplied_data[3] = block_reg[06] * block_reg[07];
+
 
   //----------------------------------------------------------------
   // core instantiation.
   //----------------------------------------------------------------
-  sha256_core core(
-                   .clk(clk),
-                   .reset_n(reset_n),
+  // sha256_core core(
+  //                  .clk(clk),
+  //                  .reset_n(reset_n),
 
-                   .init(init_reg),
-                   .next(next_reg),
-                   .mode(mode_reg),
+  //                  .init(init_reg),
+  //                  .next(next_reg),
+  //                  .mode(mode_reg),
 
-                   .block(core_block),
+  //                  .block(core_block),
 
-                   .ready(core_ready),
+  //                  .ready(core_ready),    // output
 
-                   .digest(core_digest),
-                   .digest_valid(core_digest_valid)
-                  );
+  //                  .digest(core_digest),  // output
+  //                  .digest_valid(core_digest_valid) // output
+  //                 );
 
 
   //----------------------------------------------------------------
@@ -177,19 +195,30 @@ module sha256(
         end
       else
         begin
-          ready_reg        <= core_ready;
-          digest_valid_reg <= core_digest_valid;
+          // temporarily make design add 512-bit input 
+          // ready_reg        <= core_ready;
+          ready_reg        <= 1'b1;
+          // digest_valid_reg <= core_digest_valid;
           init_reg         <= init_new;
           next_reg         <= next_new;
 
           if (mode_we)
             mode_reg <= mode_new;
 
-          if (core_digest_valid)
-            digest_reg <= core_digest;
+          // if (core_digest_valid)
+          //   digest_reg <= core_digest;
 
-          if (block_we)
+          // simplified, if digest valid (when not writing to block) assign added_data to output
+          if (digest_valid_reg)
+            digest_reg <= {added_data[0], added_data[1], added_data[2], added_data[3], added_data[4], added_data[5], added_data[6], added_data[7]};
+
+          if (block_we) begin
             block_reg[address[3 : 0]] <= write_data;
+            digest_valid_reg <= 1'b0;
+          end
+          else begin
+            digest_valid_reg <= 1'b1;
+          end
         end
     end // reg_update
 
@@ -228,7 +257,7 @@ module sha256(
 
           else
             begin
-              // read 
+              // read
               if ((address >= ADDR_BLOCK0) && (address <= ADDR_BLOCK15))
                 tmp_read_data = block_reg[address[3 : 0]];
 
