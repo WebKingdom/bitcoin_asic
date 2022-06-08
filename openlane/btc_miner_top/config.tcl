@@ -23,10 +23,7 @@ set ::env(DESIGN_NAME) btc_miner_top
 set ::env(VERILOG_FILES) "\
 	$::env(CARAVEL_ROOT)/verilog/rtl/defines.v \
 	$script_dir/../../verilog/rtl/btc_miner_top.v \
-	$script_dir/../../verilog/rtl/sha256.v \
-	$script_dir/../../verilog/rtl/sha256_core.v \
-	$script_dir/../../verilog/rtl/sha256_k_constants.v \
-	$script_dir/../../verilog/rtl/sha256_w_mem.v"
+	$script_dir/../../verilog/rtl/sha256.v"
 
 set ::env(DESIGN_IS_CORE) 0
 
@@ -38,13 +35,13 @@ set ::env(CLOCK_PERIOD) "10"
 # no matter what PL or GLB parameters I set. tried increasing both HOLD_MAX_BUFFER_PERCENT and HOLD_SLACK_MARGIN to 80% and 0.3ns
 set ::env(FP_SIZING) absolute
 # max area in wrapper: 0 0 2920 3520
-set ::env(DIE_AREA) "0 0 2920 3520"
+set ::env(DIE_AREA) "0 0 900 600"
 
 set ::env(FP_PIN_ORDER_CFG) $script_dir/pin_order.cfg
 
 set ::env(PL_BASIC_PLACEMENT) 0
-set ::env(PL_TARGET_DENSITY) 0.7
-set ::env(FP_CORE_UTIL) 80
+set ::env(PL_TARGET_DENSITY) 0.4
+set ::env(FP_CORE_UTIL) 20
 # with 10%: detailed placement faild and had setup violations
 # with 50%: detailed placement faild and had setup violations
 # with 100% and 0.7: "Utilization exceeds 100%." Ran out of space?
@@ -59,22 +56,46 @@ set ::env(FP_CORE_UTIL) 80
 # DIE_AREA: "0 0 2920 3520" and FP_SIZING: absolute
 # with 95% and 0.98: "Detailed placement failed." "Error: resizer.tcl, 78 DPL-0036"
 
+
+# * Simplified design:
+# DIE_AREA: "0 0 2920 3520" (absolute)
+# with 80% and 0.7: Routing congestion too high.
+
+# DIE_AREA: "0 0 1400 1000" (absolute)
+# with 40% and 0.55: Routing congestion too high.
+
+# DIE_AREA: "0 0 1000 800" (absolute)
+# with 8% and 0.55: Routing congestion too high.
+
+# DIE_AREA: "0 0 900 600" (absolute)
+# with 5% and 0.15: There are hold violations in the design at the typical corner. Antenna pins violated: 120, nets violated: 118
+
+# DIE_AREA: "0 0 900 600" (absolute)
+# with 5% and 0.2: There are hold violations in the design at the typical corner. Antenna pins violated: 109, nets violated: 109
+
+# DIE_AREA: "0 0 900 600" (absolute)
+# with 10% and 0.3: There are hold violations in the design at the typical corner. Antenna pins violated: 86, nets violated: 86 (about -2ns violated)
+
+# DIE_AREA: "0 0 900 600" (absolute)
+# with 20% and 0.4: 
+
+
 # Not sure how FP_SIZING absolute and relative works excatly and how DIE_AREA affects the overall size and constraints
 
 # set ::env(ROUTING_CORES) 4
 set ::env(PL_RANDOM_GLB_PLACEMENT) 0
-# set ::env(PL_RESIZER_ALLOW_SETUP_VIOS) 1
-# set ::env(GLB_RESIZER_ALLOW_SETUP_VIOS) 1
+set ::env(PL_RESIZER_ALLOW_SETUP_VIOS) 1
+set ::env(GLB_RESIZER_ALLOW_SETUP_VIOS) 1
 
-set ::env(PL_RESIZER_HOLD_MAX_BUFFER_PERCENT) 80
-set ::env(GLB_RESIZER_HOLD_MAX_BUFFER_PERCENT) 80
-# set ::env(PL_RESIZER_HOLD_SLACK_MARGIN) 0.1ns
-# set ::env(GLB_RESIZER_HOLD_SLACK_MARGIN) 0.1ns
+set ::env(PL_RESIZER_HOLD_MAX_BUFFER_PERCENT) 90
+set ::env(GLB_RESIZER_HOLD_MAX_BUFFER_PERCENT) 90
+set ::env(PL_RESIZER_HOLD_SLACK_MARGIN) 0.2ns
+set ::env(GLB_RESIZER_HOLD_SLACK_MARGIN) 0.2ns
 
-set ::nev(PL_RESIZER_SETUP_MAX_BUFFER_PERCENT) 80
-set ::nev(GLB_RESIZER_SETUP_MAX_BUFFER_PERCENT) 80
-# set ::env(PL_RESIZER_SETUP_SLACK_MARGIN) 0.05ns
-# set ::env(GLB_RESIZER_SETUP_SLACK_MARGIN) 0.05ns
+set ::nev(PL_RESIZER_SETUP_MAX_BUFFER_PERCENT) 90
+set ::nev(GLB_RESIZER_SETUP_MAX_BUFFER_PERCENT) 90
+set ::env(PL_RESIZER_SETUP_SLACK_MARGIN) 0.1ns
+set ::env(GLB_RESIZER_SETUP_SLACK_MARGIN) 0.1ns
 
 # set ::anv(CTS_TARGET_SKEW) 200
 
