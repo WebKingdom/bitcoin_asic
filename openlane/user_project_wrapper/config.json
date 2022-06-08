@@ -9,8 +9,8 @@
     "DESIGN_NAME"                     : "user_project_wrapper",
     "DIE_AREA"                        : "0 0 2920 3520",
     "DIODE_INSERTION_STRATEGY"        : "0",
-    "EXTRA_GDS_FILES"                 : "../../gds/user_adder.gds",
-    "EXTRA_LEFS"                      : "../../lef/user_adder.lef",
+    "EXTRA_GDS_FILES"                 : "../../gds/btc_miner_top.gds",
+    "EXTRA_LEFS"                      : "../../lef/btc_miner_top.lef",
     "FILL_INSERTION"                  : "0",
     "FP_IO_HEXTEND"                   : "4.8",
     "FP_IO_HLENGTH"                   : "2.4",
@@ -53,6 +53,6 @@
     "TAP_DECAP_INSERTION"             : "0",
     "VDD_NETS"                        : "vccd1 vccd2 vdda1 vdda2",
     "VERILOG_FILES"                   : ["../../caravel/verilog/rtl/defines.v","../../verilog/rtl/user_project_wrapper.v"],  
-    "VERILOG_FILES_BLACKBOX"          : ["../../caravel/verilog/rtl/defines.v","../../verilog/rtl/user_adder.v"]  
+    "VERILOG_FILES_BLACKBOX"          : ["../../caravel/verilog/rtl/defines.v","../../verilog/rtl/btc_miner_top.v"]  
 }
 

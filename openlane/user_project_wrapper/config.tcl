@@ -54,13 +54,13 @@ set ::env(MACRO_PLACEMENT_CFG) $script_dir/macro.cfg
 ### Black-box verilog and views
 set ::env(VERILOG_FILES_BLACKBOX) "\
 	$::env(CARAVEL_ROOT)/verilog/rtl/defines.v \
-	$script_dir/../../verilog/rtl/user_adder.v"
+	$script_dir/../../verilog/rtl/btc_miner_top.v"
 
 set ::env(EXTRA_LEFS) "\
-	$script_dir/../../lef/user_adder.lef"
+	$script_dir/../../lef/btc_miner_top.lef"
 
 set ::env(EXTRA_GDS_FILES) "\
-	$script_dir/../../gds/user_adder.gds"
+	$script_dir/../../gds/btc_miner_top.gds"
 
 # set ::env(GLB_RT_MAXLAYER) 5
 set ::env(RT_MAX_LAYER) {met4}

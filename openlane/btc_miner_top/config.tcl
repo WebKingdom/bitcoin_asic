@@ -40,8 +40,8 @@ set ::env(DIE_AREA) "0 0 900 600"
 set ::env(FP_PIN_ORDER_CFG) $script_dir/pin_order.cfg
 
 set ::env(PL_BASIC_PLACEMENT) 0
-set ::env(PL_TARGET_DENSITY) 0.4
-set ::env(FP_CORE_UTIL) 20
+set ::env(PL_TARGET_DENSITY) 0.1
+set ::env(FP_CORE_UTIL) 5
 # with 10%: detailed placement faild and had setup violations
 # with 50%: detailed placement faild and had setup violations
 # with 100% and 0.7: "Utilization exceeds 100%." Ran out of space?
@@ -77,8 +77,11 @@ set ::env(FP_CORE_UTIL) 20
 # with 10% and 0.3: There are hold violations in the design at the typical corner. Antenna pins violated: 86, nets violated: 86 (about -2ns violated)
 
 # DIE_AREA: "0 0 900 600" (absolute)
-# with 20% and 0.4: 
+# with 20% and 0.4: There are hold violations in the design at the typical corner. Antenna pins violated: 73, nets violated: 72 (about -2.9ns violated)
 
+
+# DIE_AREA: "0 0 900 600" (absolute)
+# TODO with 5% and 0.1: 
 
 # Not sure how FP_SIZING absolute and relative works excatly and how DIE_AREA affects the overall size and constraints
 
