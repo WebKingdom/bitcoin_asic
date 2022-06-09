@@ -33,15 +33,15 @@ set ::env(CLOCK_PERIOD) "10"
 
 # always got: "There are hold violations in the design at the typical corner" when FP_SIZING was absolute... 
 # no matter what PL or GLB parameters I set. tried increasing both HOLD_MAX_BUFFER_PERCENT and HOLD_SLACK_MARGIN to 80% and 0.3ns
-set ::env(FP_SIZING) absolute
+set ::env(FP_SIZING) relative
 # max area in wrapper: 0 0 2920 3520
 set ::env(DIE_AREA) "0 0 900 600"
 
 set ::env(FP_PIN_ORDER_CFG) $script_dir/pin_order.cfg
 
 set ::env(PL_BASIC_PLACEMENT) 0
-set ::env(PL_TARGET_DENSITY) 0.1
-set ::env(FP_CORE_UTIL) 5
+set ::env(PL_TARGET_DENSITY) 0.2
+set ::env(FP_CORE_UTIL) 6
 # with 10%: detailed placement faild and had setup violations
 # with 50%: detailed placement faild and had setup violations
 # with 100% and 0.7: "Utilization exceeds 100%." Ran out of space?
@@ -81,7 +81,22 @@ set ::env(FP_CORE_UTIL) 5
 
 
 # DIE_AREA: "0 0 900 600" (absolute)
-# TODO with 5% and 0.1: 
+# with 5% and 0.1: "Use a higher -density or re-floorplan with a larger core area."
+
+# DIE_AREA: "0 0 600 400" (absolute)
+# with 10% and 0.4: Detailed placement failed
+
+# DIE_AREA: "0 0 600 400" (absolute)
+# with 20% and 0.55: Detailed placement failed
+
+# DIE_AREA: "0 0 900 600" (relative and commented out all other settings)
+# with 10% and 0.4: "There are max slew violations in the design at the typical corner." "There are hold violations in the design at the typical corner."
+
+# DIE_AREA: "0 0 900 600" (relative and other settings included)
+# with 8% and 0.3: There are hold violations in the design at the typical corner. Antenna pins violated: 12, nets violated: 12 (about -1.65ns violated)
+
+# DIE_AREA: "0 0 900 600" (relative and other settings included)
+# TODO with 6% and 0.2: 
 
 # Not sure how FP_SIZING absolute and relative works excatly and how DIE_AREA affects the overall size and constraints
 
@@ -92,13 +107,13 @@ set ::env(GLB_RESIZER_ALLOW_SETUP_VIOS) 1
 
 set ::env(PL_RESIZER_HOLD_MAX_BUFFER_PERCENT) 90
 set ::env(GLB_RESIZER_HOLD_MAX_BUFFER_PERCENT) 90
-set ::env(PL_RESIZER_HOLD_SLACK_MARGIN) 0.2ns
-set ::env(GLB_RESIZER_HOLD_SLACK_MARGIN) 0.2ns
+set ::env(PL_RESIZER_HOLD_SLACK_MARGIN) 0.8ns
+set ::env(GLB_RESIZER_HOLD_SLACK_MARGIN) 0.8ns
 
 set ::nev(PL_RESIZER_SETUP_MAX_BUFFER_PERCENT) 90
 set ::nev(GLB_RESIZER_SETUP_MAX_BUFFER_PERCENT) 90
-set ::env(PL_RESIZER_SETUP_SLACK_MARGIN) 0.1ns
-set ::env(GLB_RESIZER_SETUP_SLACK_MARGIN) 0.1ns
+set ::env(PL_RESIZER_SETUP_SLACK_MARGIN) 0.5ns
+set ::env(GLB_RESIZER_SETUP_SLACK_MARGIN) 0.5ns
 
 # set ::anv(CTS_TARGET_SKEW) 200
 
