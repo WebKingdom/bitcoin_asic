@@ -1,6 +1,7 @@
-# Caravel user project includes	     
--v $(USER_PROJECT_VERILOG)/gl/user_project_wrapper.v	     
+# Caravel user project includes
+-v $(USER_PROJECT_VERILOG)/gl/user_project_wrapper.v
 -v $(USER_PROJECT_VERILOG)/gl/user_proj_example.v
--v $(USER_PROJECT_VERILOG)/gl/user_adder.v
--v $(USER_PROJECT_VERILOG)/gl/btc_miner_top.v
--v $(USER_PROJECT_VERILOG)/gl/sha256.v
+-v $(USER_PROJECT_VERILOG)/gl/sha1_top.v
+-v $(USER_PROJECT_VERILOG)/gl/sha1.v
+-v $(USER_PROJECT_VERILOG)/gl/sha1_core.v
+-v $(USER_PROJECT_VERILOG)/gl/sha1_w_mem.v
