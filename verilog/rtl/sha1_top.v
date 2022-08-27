@@ -1,5 +1,3 @@
-// TODO edit btc_miner_top to suit sha1 spec.
-
 // SPDX-FileCopyrightText: 2020 Efabless Corporation
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -196,6 +194,7 @@ module sha1_ctrl #(
   localparam STATUS_VALID_BIT = 1;
 
   localparam ADDR_BLOCK0    = 8'h10;
+  localparam ADDR_BLOCK14   = 8'h1e;
   localparam ADDR_BLOCK15   = 8'h1f;
 
   localparam ADDR_DIGEST0   = 8'h20;
