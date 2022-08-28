@@ -206,12 +206,6 @@ module sha1(
             end // if (write_read)
           else
             begin
-              if ((address >= ADDR_BLOCK0) && (address <= ADDR_BLOCK15))
-                tmp_read_data = block_reg[address[3 : 0]];
-
-              if ((address >= ADDR_DIGEST0) && (address <= ADDR_DIGEST4))
-                tmp_read_data = digest_reg[(4 - (address - ADDR_DIGEST0)) * 32 +: 32];
-
               case (address)
                 // Read operations.
                 ADDR_NAME0:
@@ -231,7 +225,13 @@ module sha1(
 
                 default:
                   begin
-                    tmp_error = 1'h1;
+                    if ((address >= ADDR_BLOCK0) && (address <= ADDR_BLOCK15)) begin
+                      tmp_read_data = block_reg[address[3 : 0]];
+                    end else if ((address >= ADDR_DIGEST0) && (address <= ADDR_DIGEST4)) begin
+                      tmp_read_data = digest_reg[(4 - (address - ADDR_DIGEST0)) * 32 +: 32];
+                    end else begin
+                      tmp_error = 1'h1;
+                    end
                   end
               endcase // case (addr)
             end

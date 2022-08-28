@@ -37,13 +37,13 @@ set ::env(CLOCK_PERIOD) "10"
 # no matter what PL or GLB parameters I set. tried increasing both HOLD_MAX_BUFFER_PERCENT and HOLD_SLACK_MARGIN to 80% and 0.3ns
 set ::env(FP_SIZING) absolute
 # max area in wrapper: 0 0 2920 3520
-set ::env(DIE_AREA) "0 0 2900 3500"
+set ::env(DIE_AREA) "0 0 2920 3520"
 
 set ::env(FP_PIN_ORDER_CFG) $script_dir/pin_order.cfg
 
 set ::env(PL_BASIC_PLACEMENT) 0
 # set ::env(PL_TARGET_DENSITY) 0.6
-set ::env(FP_CORE_UTIL) 90
+set ::env(FP_CORE_UTIL) 94
 # with 10%: detailed placement faild and had setup violations
 # with 50%: detailed placement faild and had setup violations
 # with 100% and 0.7: "Utilization exceeds 100%." Ran out of space?
@@ -281,6 +281,23 @@ set ::env(FP_CORE_UTIL) 90
 
 # DIE_AREA: "0 0 2920 3520" (absolute and commented out eerything except PL_RANDOM_GLB_PLACEMENT == 0 and all buffer % = 80)
 # with 94% and default PL_TARGET_DENSITY:
+# [STEP 21]
+# [INFO]: Running Global Routing...
+# [ERROR]: during executing openroad script /openlane/scripts/openroad/groute.tcl
+# [ERROR]: Exit code: 1
+# [ERROR]: full log: ../Users/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/sha1_top/runs/22_08_27_15_07/logs/routing/21-global.log
+# [ERROR]: Last 10 lines:
+# [INFO GRT-0101] Running extra iterations to remove overflow.
+# [INFO GRT-0103] Extra Run for hard benchmark.
+# [INFO GRT-0197] Via related to pin nodes: 83898
+# [INFO GRT-0198] Via related Steiner nodes: 8049
+# [INFO GRT-0199] Via filling finished.
+# [INFO GRT-0111] Final number of vias: 165868
+# [INFO GRT-0112] Final usage 3D: 949355
+# [ERROR GRT-0118] Routing congestion too high.
+# Error: groute.tcl, 55 GRT-0118
+
+
 # TODO 
 
 

@@ -215,7 +215,7 @@ module sha1_ctrl #(
   wire sha_we;
   reg [7:0] reg_sha_address;
 
-  // sha_mode, sha_next, sha_init. Map to ADDR_CTRL register [2:0]
+  // sha_next, sha_init. Map to ADDR_CTRL register [1:0]
   wire [1:0] sha_ctrl_bits;
   wire read_status_flag;
 
