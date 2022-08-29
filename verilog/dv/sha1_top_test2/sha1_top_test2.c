@@ -143,143 +143,163 @@ void main()
     reg_mprj_datal = 0xFEEDFEED;
     // reg_mprj_datah = 0x00000000;
 
-    // set control information to SHA256: sha_init, auto_ctrl, and start_ctrl
+
+    // * data I/O from MSB to LSB
+    // * TC1 (from SHA1 repo)
+    // TC1: Single block message: "abc".
+    // tc1 = 512'h61626380000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000018;
+    // res1 = 160'h a9993e36 4706816a ba3e2571 7850c26c 9cd0d89d;
+
+    // set control information to SHA256: sha_next: 0, sha_init: 1, auto_ctrl: 1, and start_ctrl: 1
     // *init bit starts sha_core, but only write to control register after reading in 512-bit input!
     reg_la3_data = 0x00010C00;
-
-    // TODO could put in loop?
-    // aa55aa55
-    // deadbeef
-    // 55aa55aa
-    // f00ff00f
-    reg_mprj_slave = 0xaa55aa55;
-    // reg_mprj_slave = sha256_input[index];
-    // index++;
-    // sha_addr == ADDR_BLOCK0 && sha_we && sha_cs && sha_read_data == 0
-    // * removed because can not read register value
-    // reg_val = reg_la2_data;
-    // while ((reg_val & 0x00000FFF) != 0x310)
-    // {
-    //     num_trials++;
-    //     if (num_trials > NUM_TRIALS_LIMIT) {
-    //         // did not read input
-    //         testsPassed = testsPassed & 0;
-    //         reg_mprj_datal = 0xBAD0BAD0;
-    //         break;
-    //     }
-    //     reg_val = reg_la2_data;
-    // }
-    // num_trials = 0; // reset number of trials
-
-    // set control information to SHA256: disable start_ctrl
+    reg_mprj_slave = 0x61626380;
     reg_la3_data = 0x00010800;
+    reg_mprj_slave = 0x00000000;
+    reg_mprj_slave = 0x00000000;
+    reg_mprj_slave = 0x00000000;
 
-    reg_mprj_slave = 0xdeadbeef;
-    // reg_mprj_slave = sha256_input[index];
-    // index++;
-    // sha_addr == ADDR_BLOCK1 && sha_we && sha_cs && sha_read_data == 0
-    // * removed because can not read register value
-    // reg_val = reg_la2_data;
-    // while ((reg_val & 0x00000FFF) != 0x311)
-    // {
-    //     num_trials++;
-    //     if (num_trials > NUM_TRIALS_LIMIT) {
-    //         // did not read input
-    //         testsPassed = testsPassed & 0;
-    //         reg_mprj_datal = 0xBAD0BAD0;
-    //         break;
-    //     }
-    //     reg_val = reg_la2_data;
-    // }
-    // num_trials = 0; // reset number of trials
+    reg_mprj_slave = 0x00000000;
+    reg_mprj_slave = 0x00000000;
+    reg_mprj_slave = 0x00000000;
+    reg_mprj_slave = 0x00000000;
 
-    reg_mprj_slave = 0x55aa55aa;
-    reg_mprj_slave = 0xf00ff00f;
+    reg_mprj_slave = 0x00000000;
+    reg_mprj_slave = 0x00000000;
+    reg_mprj_slave = 0x00000000;
+    reg_mprj_slave = 0x00000000;
 
-    reg_mprj_slave = 0xaa55aa55;
-    reg_mprj_slave = 0xdeadbeef;
-    reg_mprj_slave = 0x55aa55aa;
-    reg_mprj_slave = 0xf00ff00f;
-
-    reg_mprj_slave = 0xaa55aa55;
-    reg_mprj_slave = 0xdeadbeef;
-    reg_mprj_slave = 0x55aa55aa;
-    reg_mprj_slave = 0xf00ff00f;
-
-    reg_mprj_slave = 0xaa55aa55;
-    reg_mprj_slave = 0xdeadbeef;
-    reg_mprj_slave = 0x55aa55aa;
-    reg_mprj_slave = 0xf00ff00f;
+    reg_mprj_slave = 0x00000000;
+    reg_mprj_slave = 0x00000000;
+    reg_mprj_slave = 0x00000000;
+    reg_mprj_slave = 0x00000018;
 
     // read valid output hash (digest)
-    hash_out0 = reg_mprj_slave;
-    // reg_val = reg_la2_data;
-    // if ((reg_val & 0x00000FFF) == 0x120)
-    // {
-    //     testsPassed = testsPassed & 1;
-    // }
-    // else
-    // {
-    //     testsPassed = testsPassed & 0;
-    //     reg_mprj_datal = 0xBAD0BAD0;
-    // }
-
-    hash_out1 = reg_mprj_slave;
-    // reg_val = reg_la2_data;
-    // if ((reg_val & 0x00000FFF) == 0x121)
-    // {
-    //     testsPassed = testsPassed & 1;
-    // }
-    // else
-    // {
-    //     testsPassed = testsPassed & 0;
-    //     reg_mprj_datal = 0xBAD0BAD0;
-    // }
-
-    hash_out2 = reg_mprj_slave;
-    // reg_val = reg_la2_data;
-    // if ((reg_val & 0x00000FFF) == 0x122)
-    // {
-    //     testsPassed = testsPassed & 1;
-    // }
-    // else
-    // {
-    //     testsPassed = testsPassed & 0;
-    //     reg_mprj_datal = 0xBAD0BAD0;
-    // }
-
-    hash_out3 = reg_mprj_slave;
-    // reg_val = reg_la2_data;
-    // if ((reg_val & 0x00000FFF) == 0x123)
-    // {
-    //     testsPassed = testsPassed & 1;
-    // }
-    // else
-    // {
-    //     testsPassed = testsPassed & 0;
-    //     reg_mprj_datal = 0xBAD0BAD0;
-    // }
-
     hash_out4 = reg_mprj_slave;
-    // reg_val = reg_la2_data;
-    // if ((reg_val & 0x00000FFF) == 0x124)
-    // {
-    //     testsPassed = testsPassed & 1;
-    // }
-    // else
-    // {
-    //     testsPassed = testsPassed & 0;
-    //     reg_mprj_datal = 0xBAD0BAD0;
-    // }
+    hash_out3 = reg_mprj_slave;
+    hash_out2 = reg_mprj_slave;
+    hash_out1 = reg_mprj_slave;
+    hash_out0 = reg_mprj_slave;
 
-    if ((hash_out4 == 0xea2ebc79) && (hash_out3 == 0x35516705) && (hash_out2 == 0xde1e1467) &&
-        (hash_out1 == 0x31e55587) && (hash_out0 == 0xa0038725))
+    if (!((hash_out4 == 0xa9993e36) && (hash_out3 == 0x4706816a) && (hash_out2 == 0xba3e2571) &&
+        (hash_out1 == 0x7850c26c) && (hash_out0 == 0x9cd0d89d)))
+    {
+        reg_mprj_datal = 0xBAD0BAD0;    // failed test
+    }
+
+
+    // * TC2_1 (from SHA1 repo)
+    // TC2: Double block message.
+    // "abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq"
+    // tc2_1 = 512'h 61626364 62636465 63646566 64656667 65666768 66676869 6768696A 68696A6B 696A6B6C 6A6B6C6D 6B6C6D6E 6C6D6E6F 6D6E6F70 6E6F7071 80000000 00000000;
+    // res2_1 = 160'h f4286818 c37b27ae 0408f581 84677148 4a566572;
+    reg_la3_data = 0x00010C00;
+    reg_mprj_slave = 0x61626364;
+    reg_la3_data = 0x00010800;
+    reg_mprj_slave = 0x62636465;
+    reg_mprj_slave = 0x63646566;
+    reg_mprj_slave = 0x64656667;
+
+    reg_mprj_slave = 0x65666768;
+    reg_mprj_slave = 0x66676869;
+    reg_mprj_slave = 0x6768696A;
+    reg_mprj_slave = 0x68696A6B;
+
+    reg_mprj_slave = 0x696A6B6C;
+    reg_mprj_slave = 0x6A6B6C6D;
+    reg_mprj_slave = 0x6B6C6D6E;
+    reg_mprj_slave = 0x6C6D6E6F;
+
+    reg_mprj_slave = 0x6D6E6F70;
+    reg_mprj_slave = 0x6E6F7071;
+    reg_mprj_slave = 0x80000000;
+    reg_mprj_slave = 0x00000000;
+
+    // read valid output hash (digest)
+    hash_out4 = reg_mprj_slave;
+    hash_out3 = reg_mprj_slave;
+    hash_out2 = reg_mprj_slave;
+    hash_out1 = reg_mprj_slave;
+    hash_out0 = reg_mprj_slave;
+
+    if (!((hash_out4 == 0xf4286818) && (hash_out3 == 0xc37b27ae) && (hash_out2 == 0x0408f581) &&
+        (hash_out1 == 0x84677148) && (hash_out0 == 0x4a566572)))
+    {
+        reg_mprj_datal = 0xBAD0BAD0;    // failed test
+    }
+
+
+    // * TC2_2 (from SHA1 repo)
+    // tc2_2 = 512'h000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001C0;
+    // res2_2 = 160'h 84983e44 1c3bd26e baae4aa1 f95129e5 e54670f1;
+    reg_la3_data = 0x00020C00;      // * Double block message must set sha_next bit and disable sha_init
+    reg_mprj_slave = 0x00000000;
+    reg_la3_data = 0x00020800;      // * Double block message must set sha_next bit and disable sha_init
+    reg_mprj_slave = 0x00000000;
+    reg_mprj_slave = 0x00000000;
+    reg_mprj_slave = 0x00000000;
+
+    reg_mprj_slave = 0x00000000;
+    reg_mprj_slave = 0x00000000;
+    reg_mprj_slave = 0x00000000;
+    reg_mprj_slave = 0x00000000;
+
+    reg_mprj_slave = 0x00000000;
+    reg_mprj_slave = 0x00000000;
+    reg_mprj_slave = 0x00000000;
+    reg_mprj_slave = 0x00000000;
+
+    reg_mprj_slave = 0x00000000;
+    reg_mprj_slave = 0x00000000;
+    reg_mprj_slave = 0x00000000;
+    reg_mprj_slave = 0x000001c0;
+
+    // read valid output hash (digest)
+    hash_out4 = reg_mprj_slave;
+    hash_out3 = reg_mprj_slave;
+    hash_out2 = reg_mprj_slave;
+    hash_out1 = reg_mprj_slave;
+    hash_out0 = reg_mprj_slave;
+
+    if (!((hash_out4 == 0x84983e44) && (hash_out3 == 0x1c3bd26e) && (hash_out2 == 0xbaae4aa1) &&
+        (hash_out1 == 0xf95129e5) && (hash_out0 == 0xe54670f1)))
+    {
+        reg_mprj_datal = 0xBAD0BAD0;    // failed test
+    }
+    else
     {
         // Successfully ended test
         reg_mprj_datal = 0xDEADDEAD;
     }
-    else
-    {
-        reg_mprj_datal = 0xBAD0BAD0;
-    }
+
+
+
+
+    // TODO more tests
+    // *Custom test
+    // aa55aa55
+    // deadbeef
+    // 55aa55aa
+    // f00ff00f
+    // reg_mprj_slave = 0xaa55aa55;
+    // reg_la3_data = 0x00010800;
+    // reg_mprj_slave = 0xdeadbeef;
+    // reg_mprj_slave = 0x55aa55aa;
+    // reg_mprj_slave = 0xf00ff00f;
+
+    // reg_mprj_slave = 0xaa55aa55;
+    // reg_mprj_slave = 0xdeadbeef;
+    // reg_mprj_slave = 0x55aa55aa;
+    // reg_mprj_slave = 0xf00ff00f;
+
+    // reg_mprj_slave = 0xaa55aa55;
+    // reg_mprj_slave = 0xdeadbeef;
+    // reg_mprj_slave = 0x55aa55aa;
+    // reg_mprj_slave = 0xf00ff00f;
+
+    // reg_mprj_slave = 0xaa55aa55;
+    // reg_mprj_slave = 0xdeadbeef;
+    // reg_mprj_slave = 0x55aa55aa;
+    // reg_mprj_slave = 0xf00ff00f;
+
 }

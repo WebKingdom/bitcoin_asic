@@ -35,15 +35,15 @@ set ::env(CLOCK_PERIOD) "10"
 
 # always got: "There are hold violations in the design at the typical corner" when FP_SIZING was absolute... 
 # no matter what PL or GLB parameters I set. tried increasing both HOLD_MAX_BUFFER_PERCENT and HOLD_SLACK_MARGIN to 80% and 0.3ns
-set ::env(FP_SIZING) absolute
+set ::env(FP_SIZING) relative
 # max area in wrapper: 0 0 2920 3520
-set ::env(DIE_AREA) "0 0 2920 3520"
+# set ::env(DIE_AREA) "0 0 6000 8000"
 
 set ::env(FP_PIN_ORDER_CFG) $script_dir/pin_order.cfg
 
 set ::env(PL_BASIC_PLACEMENT) 0
 # set ::env(PL_TARGET_DENSITY) 0.6
-set ::env(FP_CORE_UTIL) 94
+set ::env(FP_CORE_UTIL) 30
 # with 10%: detailed placement faild and had setup violations
 # with 50%: detailed placement faild and had setup violations
 # with 100% and 0.7: "Utilization exceeds 100%." Ran out of space?
@@ -260,7 +260,7 @@ set ::env(FP_CORE_UTIL) 94
 # Error: resizer_routing_timing.tcl, 53 GRT-0118
 
 
-# DIE_AREA: "0 0 2900 3500" (absolute and commented out eerything except PL_RANDOM_GLB_PLACEMENT == 0 and all buffer % = 80)
+# DIE_AREA: "0 0 2900 3500" (absolute and commented out everything except PL_RANDOM_GLB_PLACEMENT == 0 and all buffer % = 80)
 # with 90% and default PL_TARGET_DENSITY:
 # [STEP 21]
 # [INFO]: Running Global Routing...
@@ -279,7 +279,7 @@ set ::env(FP_CORE_UTIL) 94
 # Error: groute.tcl, 55 GRT-0118
 
 
-# DIE_AREA: "0 0 2920 3520" (absolute and commented out eerything except PL_RANDOM_GLB_PLACEMENT == 0 and all buffer % = 80)
+# DIE_AREA: "0 0 2920 3520" (absolute and commented out everything except PL_RANDOM_GLB_PLACEMENT == 0 and all buffer % = 80)
 # with 94% and default PL_TARGET_DENSITY:
 # [STEP 21]
 # [INFO]: Running Global Routing...
@@ -296,6 +296,44 @@ set ::env(FP_CORE_UTIL) 94
 # [INFO GRT-0112] Final usage 3D: 949355
 # [ERROR GRT-0118] Routing congestion too high.
 # Error: groute.tcl, 55 GRT-0118
+
+
+# DIE_AREA: "0 0 6000 8000" (absolute and commented out everything except PL_RANDOM_GLB_PLACEMENT == 0 and all buffer % = 80)
+# with 90% and default PL_TARGET_DENSITY:
+# [STEP 15]
+# [INFO]: Running Global Routing Resizer Timing Optimizations...
+# [ERROR]: during executing openroad script /openlane/scripts/openroad/resizer_routing_timing.tcl
+# [ERROR]: Exit code: 1
+# [ERROR]: full log: ../Users/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/sha1_top/runs/22_08_29_11_16/logs/routing/15-resizer.log
+# [ERROR]: Last 10 lines:
+
+# [INFO GRT-0101] Running extra iterations to remove overflow.
+# [INFO GRT-0197] Via related to pin nodes: 66525
+# [INFO GRT-0198] Via related Steiner nodes: 1333
+# [INFO GRT-0199] Via filling finished.
+# [INFO GRT-0111] Final number of vias: 86746
+# [INFO GRT-0112] Final usage 3D: 466964
+# [ERROR GRT-0118] Routing congestion too high.
+# Error: resizer_routing_timing.tcl, 53 GRT-0118
+
+
+# Commented out: DIE_AREA: "0 0 6000 8000" (FP_SIZING = relative and commented out everything except PL_RANDOM_GLB_PLACEMENT == 0 and all buffer % = 80)
+# with 30% and default PL_TARGET_DENSITY:
+# [STEP 18]
+# [INFO]: Running Detailed Placement...
+# [ERROR]: during executing openroad script /openlane/scripts/openroad/opendp.tcl
+# [ERROR]: Exit code: 1
+# [ERROR]: full log: ../Users/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/sha1_top/runs/22_08_29_13_53/logs/routing/18-diode_legalization.log
+# [ERROR]: Last 10 lines:
+# [INFO DPL-0035]  ANTENNA__14155__A1
+# [INFO DPL-0035]  ANTENNA__14155__A1
+# [INFO DPL-0035]  ANTENNA__20474__A2
+# [INFO DPL-0035]  ANTENNA__20930__A
+# [INFO DPL-0035]  ANTENNA__20930__A
+# [INFO DPL-0035]  ANTENNA__16103__A0
+# [INFO DPL-0035] message limit reached, this message will no longer print
+# [ERROR DPL-0036] Detailed placement failed.
+# Error: opendp.tcl, 32 DPL-0036
 
 
 # TODO 
