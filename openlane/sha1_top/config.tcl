@@ -42,8 +42,9 @@ set ::env(FP_SIZING) relative
 set ::env(FP_PIN_ORDER_CFG) $script_dir/pin_order.cfg
 
 set ::env(PL_BASIC_PLACEMENT) 0
-# set ::env(PL_TARGET_DENSITY) 0.6
+set ::env(PL_TARGET_DENSITY) 0.4
 set ::env(FP_CORE_UTIL) 30
+set ::env(CELL_PAD) 2
 # with 10%: detailed placement faild and had setup violations
 # with 50%: detailed placement faild and had setup violations
 # with 100% and 0.7: "Utilization exceeds 100%." Ran out of space?
@@ -334,6 +335,26 @@ set ::env(FP_CORE_UTIL) 30
 # [INFO DPL-0035] message limit reached, this message will no longer print
 # [ERROR DPL-0036] Detailed placement failed.
 # Error: opendp.tcl, 32 DPL-0036
+
+
+# Commented out: DIE_AREA: "0 0 6000 8000" and commented out everything except PL_RANDOM_GLB_PLACEMENT == 0 and all buffer % = 80
+# set ::env(FP_SIZING) relative
+# set ::env(PL_TARGET_DENSITY) 0.4
+# set ::env(FP_CORE_UTIL) 30
+# set ::env(CELL_PAD) 2
+# [STEP 39]
+# [INFO]: Running Magic DRC...
+# [INFO]: Converting Magic DRC Violations to Magic Readable Format...
+# [INFO]: Converting Magic DRC Violations to Klayout XML Database...
+# [ERROR]: There are violations in the design after Magic DRC.
+# [ERROR]: Total Number of violations is 5
+# [INFO]: Saving current set of views in '../Users/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/sha1_top/runs/22_09_01_01_54/results/final'...
+# [INFO]: Generating final set of reports...
+# [INFO]: Created manufacturability report at '../Users/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/sha1_top/runs/22_09_01_01_54/reports/manufacturability.rpt'.
+# [INFO]: Created metrics report at '../Users/somasz/Documents/GitHub/mpw_6c/caravel_design/caravel_bitcoin_asic/openlane/sha1_top/runs/22_09_01_01_54/reports/metrics.csv'.
+# [INFO]: Saving runtime environment...
+# [ERROR]: Flow failed.
+
 
 
 # TODO 
