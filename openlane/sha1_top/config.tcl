@@ -37,14 +37,18 @@ set ::env(CLOCK_PERIOD) "10"
 # no matter what PL or GLB parameters I set. tried increasing both HOLD_MAX_BUFFER_PERCENT and HOLD_SLACK_MARGIN to 80% and 0.3ns
 set ::env(FP_SIZING) relative
 # max area in wrapper: 0 0 2920 3520
-# set ::env(DIE_AREA) "0 0 6000 8000"
+# set ::env(DIE_AREA) "0 0 2920 3520"
+# set ::env(CORE_AREA) "0 0 2600 3200"
 
 set ::env(FP_PIN_ORDER_CFG) $script_dir/pin_order.cfg
 
 set ::env(PL_BASIC_PLACEMENT) 0
-set ::env(PL_TARGET_DENSITY) 0.4
-set ::env(FP_CORE_UTIL) 30
+# also work with PL_TARGET_DENSITY=0.5 and FP_CORE_UTIL=0.35
+# also works with PL_TARGET_DENSITY=0.3 and FP_CORE_UTIL=0.25
+set ::env(PL_TARGET_DENSITY) 0.4	;# 0.4
+set ::env(FP_CORE_UTIL) 30 				;# 30
 set ::env(CELL_PAD) 2
+set ::env(DPL_CELL_PADDING) 2
 # with 10%: detailed placement faild and had setup violations
 # with 50%: detailed placement faild and had setup violations
 # with 100% and 0.7: "Utilization exceeds 100%." Ran out of space?

@@ -98,7 +98,7 @@ module sha1_top #(
   assign wdata = wbs_dat_i;
 
   // IO
-  assign io_out = rdata;
+  assign io_out = {rdata, 6'b000000};       // 38 bits
   assign io_oeb = {(`MPRJ_IO_PADS-1){rst}};
 
   // IRQ
@@ -111,6 +111,7 @@ module sha1_top #(
   assign la_write2 = ~la_oenb[95:64] & ~{BITS{valid}};
   assign la_write3 = ~la_oenb[127:96] & ~{BITS{valid}};
 
+  // 76 bits
   assign la_data_out_w = {o_idle, o_error, o_sha_we, o_sha_cs, o_sha_address, o_sha_read_data, rdata};
 
   // Assuming LA probes [111:110] are for controlling the reset & clock
