@@ -39,28 +39,28 @@ set ::env(VERILOG_FILES) "\
 
 ## Clock configurations
 set ::env(CLOCK_PORT) "user_clock2"
-set ::env(CLOCK_NET) "mprj.clk"
+set ::env(CLOCK_NET) "mprj.clk"		;# TODO change sha1_top_inst?
 
 set ::env(CLOCK_PERIOD) "10"
 
 ## Internal Macros
 ### Macro PDN Connections
 set ::env(FP_PDN_MACRO_HOOKS) "\
-	mprj vccd1 vssd1 vccd1 vssd1"
+	sha1_top_inst vccd1 vssd1 vccd1 vssd1"		;# TODO change sha1_top_inst? 
 
 ### Macro Placement
-set ::env(MACRO_PLACEMENT_CFG) $script_dir/macro.cfg
+set ::env(MACRO_PLACEMENT_CFG) $script_dir/macro.cfg	;# TODO what should go in macro?
 
 ### Black-box verilog and views
 set ::env(VERILOG_FILES_BLACKBOX) "\
 	$::env(CARAVEL_ROOT)/verilog/rtl/defines.v \
-	$script_dir/../../verilog/rtl/sha1_top.v" ;# TODO change
+	$script_dir/../../verilog/rtl/sha1_top.v"
 
 set ::env(EXTRA_LEFS) "\
-	$script_dir/../../lef/sha1_top.lef"       ;# TODO change
+	$script_dir/../../lef/sha1_top.lef"
 
 set ::env(EXTRA_GDS_FILES) "\
-	$script_dir/../../gds/sha1_top.gds"       ;# TODO change
+	$script_dir/../../gds/sha1_top.gds"
 
 # set ::env(GLB_RT_MAXLAYER) 5
 set ::env(RT_MAX_LAYER) {met4}

@@ -21,12 +21,11 @@
     // Assume default net type to be wire because GL netlists don't have the wire definitions
     `default_nettype wire
     `include "gl/user_project_wrapper.v"
-    `include "gl/user_proj_example.v"
-    `include "gl/user_adder.v"
-    `include "gl/btc_miner_top.v"
+    `include "gl/sha1_top.v"
 `else
     `include "user_project_wrapper.v"
-    `include "user_proj_example.v"
-    `include "user_adder.v"
-    `include "btc_miner_top.v"
+    `include "sha1_top.v"
+    `include "sha1.v"
+    `include "sha1_core.v"
+    `include "sha1_w_mem.v"
 `endif
