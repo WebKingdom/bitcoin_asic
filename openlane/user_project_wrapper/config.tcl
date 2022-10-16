@@ -39,7 +39,7 @@ set ::env(VERILOG_FILES) "\
 
 ## Clock configurations
 set ::env(CLOCK_PORT) "user_clock2"
-set ::env(CLOCK_NET) "mprj.clk"		;# TODO change sha1_top_inst?
+set ::env(CLOCK_NET) "sha1_top_inst.clk"		;# TODO change sha1_top_inst?
 
 set ::env(CLOCK_PERIOD) "10"
 
