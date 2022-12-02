@@ -4,3 +4,5 @@
 -v $(USER_PROJECT_VERILOG)/rtl/sha1.v
 -v $(USER_PROJECT_VERILOG)/rtl/sha1_core.v
 -v $(USER_PROJECT_VERILOG)/rtl/sha1_w_mem.v
+
+# -v $(USER_PROJECT_VERILOG)/rtl/user_proj_example.v

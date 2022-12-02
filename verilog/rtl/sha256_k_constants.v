@@ -129,6 +129,7 @@ module sha256_k_constants(
     end // block: round_mux
 endmodule // sha256_k_constants
 
+`default_nettype wire
 //======================================================================
 // sha256_k_constants.v
 //======================================================================

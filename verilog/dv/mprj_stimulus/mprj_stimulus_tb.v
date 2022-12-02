@@ -139,7 +139,7 @@ module mprj_stimulus_tb;
         $dumpvars(0, mprj_stimulus_tb);
 
         // Repeat cycles of 1000 clock edges as needed to complete testbench
-        repeat (100) begin
+        repeat (250) begin
             repeat (1000) @(posedge clock);
         end
         $display("%c[1;31m",27);

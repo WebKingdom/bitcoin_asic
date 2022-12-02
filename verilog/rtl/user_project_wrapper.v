@@ -182,7 +182,7 @@ module user_project_wrapper #(
 // );
 
 
-// top level SHA1 module
+// * Top level SHA1 module
 sha1_top sha1_top_inst (
 `ifdef USE_POWER_PINS
     .vccd1(vccd1),	// User area 1 1.8V power

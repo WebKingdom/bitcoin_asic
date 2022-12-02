@@ -47,8 +47,9 @@ set ::env(PL_BASIC_PLACEMENT) 0
 # also works with PL_TARGET_DENSITY=0.3 and FP_CORE_UTIL=0.25
 set ::env(PL_TARGET_DENSITY) 0.4	;# 0.4
 set ::env(FP_CORE_UTIL) 30 				;# 30
-set ::env(CELL_PAD) 2
-set ::env(DPL_CELL_PADDING) 2
+set ::env(CELL_PAD) 4							;# 2
+set ::env(DPL_CELL_PADDING) 4			;# 2
+set ::env(GPL_CELL_PADDING) 4			;# 2
 # with 10%: detailed placement faild and had setup violations
 # with 50%: detailed placement faild and had setup violations
 # with 100% and 0.7: "Utilization exceeds 100%." Ran out of space?
@@ -361,23 +362,21 @@ set ::env(DPL_CELL_PADDING) 2
 
 
 
-# TODO 
 
-
-# Not sure how FP_SIZING absolute and relative works excatly and how DIE_AREA affects the overall size and constraints
+# * Not sure how FP_SIZING absolute and relative works excatly and how DIE_AREA affects the overall size and constraints
 
 # set ::env(ROUTING_CORES) 4
 set ::env(PL_RANDOM_GLB_PLACEMENT) 0
 # set ::env(PL_RESIZER_ALLOW_SETUP_VIOS) 0
 # set ::env(GLB_RESIZER_ALLOW_SETUP_VIOS) 0
 
-set ::env(PL_RESIZER_HOLD_MAX_BUFFER_PERCENT) 80
-set ::env(GLB_RESIZER_HOLD_MAX_BUFFER_PERCENT) 80
+set ::env(PL_RESIZER_HOLD_MAX_BUFFER_PERCENT) 60
+set ::env(GLB_RESIZER_HOLD_MAX_BUFFER_PERCENT) 60
 # set ::env(PL_RESIZER_HOLD_SLACK_MARGIN) 0.4
 # set ::env(GLB_RESIZER_HOLD_SLACK_MARGIN) 0.2
 
-set ::nev(PL_RESIZER_SETUP_MAX_BUFFER_PERCENT) 80
-set ::nev(GLB_RESIZER_SETUP_MAX_BUFFER_PERCENT) 80
+set ::nev(PL_RESIZER_SETUP_MAX_BUFFER_PERCENT) 60
+set ::nev(GLB_RESIZER_SETUP_MAX_BUFFER_PERCENT) 60
 # set ::env(PL_RESIZER_SETUP_SLACK_MARGIN) 0.2
 # set ::env(GLB_RESIZER_SETUP_SLACK_MARGIN) 0.1
 

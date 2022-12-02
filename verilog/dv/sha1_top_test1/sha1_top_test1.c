@@ -143,9 +143,17 @@ void main()
     // LA probes [127:96] output from MGMT into USER
 	reg_la3_oenb = reg_la3_iena = 0xFFFF3FFF;    // [127:96]
 
+    // * Perform manual reset of user area and ensure reset signal is controlled by LA
+    // assign clk = (~la_oenb[110]) ? la_data_in[110] : wb_clk_i;
+    // assign rst = (~la_oenb[111]) ? la_data_in[111] : wb_rst_i;
+    reg_la3_oenb = reg_la3_iena = 0xFFFF8FFF;
+    reg_la3_data = 0x00008000;
+
     // Flag start of the test
 	reg_mprj_datal = 0xFEEDFEED;
     // reg_mprj_datah = 0x00000000;
+
+    reg_la3_data = 0x00000000;
 
     // set control information to SHA256: sha_init, auto_ctrl, and start_ctrl
     // *init bit starts sha_core, but only write to control register after reading in 512-bit input!

@@ -39,28 +39,35 @@ set ::env(VERILOG_FILES) "\
 
 ## Clock configurations
 set ::env(CLOCK_PORT) "user_clock2"
-set ::env(CLOCK_NET) "sha1_top_inst.clk"		;# TODO change sha1_top_inst?
+# set ::env(CLOCK_NET) "mprj.clk"			;# !!! edit depending on testing
+set ::env(CLOCK_NET) "sha1_top_inst.clk"
 
 set ::env(CLOCK_PERIOD) "10"
 
 ## Internal Macros
 ### Macro PDN Connections
 set ::env(FP_PDN_MACRO_HOOKS) "\
-	sha1_top_inst vccd1 vssd1 vccd1 vssd1"		;# TODO change sha1_top_inst? 
+	sha1_top_inst vccd1 vssd1 vccd1 vssd1"		;# !!! change mprj to sha1_top_inst
 
 ### Macro Placement
-set ::env(MACRO_PLACEMENT_CFG) $script_dir/macro.cfg	;# TODO what should go in macro?
+set ::env(MACRO_PLACEMENT_CFG) $script_dir/macro_sha1.cfg	;# TODO what should go in macro
 
 ### Black-box verilog and views
 set ::env(VERILOG_FILES_BLACKBOX) "\
 	$::env(CARAVEL_ROOT)/verilog/rtl/defines.v \
-	$script_dir/../../verilog/rtl/sha1_top.v"
+	$script_dir/../../verilog/rtl/sha1_top.v"							;# should only be top design file
+	# $script_dir/../../verilog/rtl/sha1.v \
+	# $script_dir/../../verilog/rtl/sha1_core.v \
+	# $script_dir/../../verilog/rtl/sha1_w_mem.v"
+	# $script_dir/../../verilog/rtl/user_proj_example.v"	;# !!! edit depending on testing
 
 set ::env(EXTRA_LEFS) "\
 	$script_dir/../../lef/sha1_top.lef"
+	# $script_dir/../../lef/user_proj_example.lef"		;# !!! edit depending on testing
 
 set ::env(EXTRA_GDS_FILES) "\
 	$script_dir/../../gds/sha1_top.gds"
+	# $script_dir/../../gds/user_proj_example.gds"		;# !!! edit depending on testing
 
 # set ::env(GLB_RT_MAXLAYER) 5
 set ::env(RT_MAX_LAYER) {met4}
